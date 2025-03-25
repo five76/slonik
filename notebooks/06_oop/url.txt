@@ -1,2 +1,0 @@
-Магические методы
-https://tproger.ru/articles/gajd-po-magicheskim-metodam-v-python

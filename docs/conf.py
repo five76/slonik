@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Основы Python'
+project = 'PostgreSQL'
 copyright = '2024-2025'
-author = 'qwe'
+author = 'fiv_e76'
 
 
 # -- General configuration ---------------------------------------------------

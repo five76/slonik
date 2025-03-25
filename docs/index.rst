@@ -1,17 +1,13 @@
-Основы Python
-#############
+PostgreSQL
+##########
 
 .. toctree::
    :maxdepth: 6
    :caption: Оглавление
 
-   chapters/01_intro/index.rst
-   chapters/02_type/index.rst
-   chapters/03_ppm/index.rst
-   chapters/04_func/index.rst
-   chapters/05_modules/index.rst
-   chapters/07_git/index.rst
-   
+   chapters/dba1/index.rst
+   chapters/dba2/index.rst
+   chapters/dba3/index.rst
    
     
 
