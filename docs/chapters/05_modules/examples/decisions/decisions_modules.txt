@@ -1,0 +1,76 @@
+Встроенные модули
+******************
+
+random
+=========
+
+1. Напиcать программу на Python для выбора случайного элемента из списка, множества, значения по словарю и файла из каталога. 
+Использовать random.choice()
+
+import random
+import os
+print("Select a random element from a list:")
+elements = [1, 2, 3, 4, 5]
+print(random.choice(elements))
+print(random.choice(elements))
+print(random.choice(elements))
+print("\nSelect a random element from a set:")
+elements = set([1, 2, 3, 4, 5])
+# convert to tuple because sets are invalid inputs
+print(random.choice(tuple(elements)))
+print(random.choice(tuple(elements)))
+print(random.choice(tuple(elements)))
+print("\nSelect a random value from a dictionary:")
+d = {"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}
+key = random.choice(list(d))
+print(d[key])
+key = random.choice(list(d))
+print(d[key])
+key = random.choice(list(d))
+print(d[key]) 
+print("\nSelect a random file from a directory.:")
+print(random.choice(os.listdir("/")))
+
+2. Напиcать программу на Python для создания списка случайных целых чисел и случайного выбора нескольких элементов из указанного списка. 
+Использовать random.sample()
+
+import random 
+print("Create a list of random integers:")
+population = range(0, 100)
+nums_list = random.sample(population, 10)
+print(nums_list)
+no_elements = 4
+print("\nRandomly select",no_elements,"multiple items from the said list:")
+result_elements = random.sample(nums_list, no_elements)
+print(result_elements)
+no_elements = 8
+print("\nRandomly select",no_elements,"multiple items from the said list:")
+result_elements = random.sample(nums_list, no_elements)
+print(result_elements)
+
+3. Напиcать программу на Python для перетасовки элементов заданного списка. Использовать random.shuffle()
+
+import random 
+nums = [1, 2, 3, 4, 5]
+print("Original list:")
+print(nums)
+random.shuffle(nums)
+print("Shuffle list:")
+print(nums)
+words = ['red', 'black', 'green', 'blue']
+print("\nOriginal list:")
+print(words)
+random.shuffle(words)
+print("Shuffle list:")
+print(words)
+
+
+csv
+
+1. 
+
+
+import csv
+reader = csv.reader(open("bike_sales.csv"))
+for row in reader:
+    print(row)

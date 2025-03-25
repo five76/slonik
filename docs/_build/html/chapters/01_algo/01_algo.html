@@ -1,0 +1,378 @@
+
+<!DOCTYPE html>
+
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Основы алгоритмизации &#8212; документация oapisip 1</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/translations.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <link rel="index" title="Алфавитный указатель" href="../../genindex.html" />
+    <link rel="search" title="Поиск" href="../../search.html" />
+    <link rel="prev" title="Welcome to oapisip’s documentation!" href="../../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Алфавитный указатель"
+             accesskey="I">указатель</a></li>
+        <li class="right" >
+          <a href="../../index.html" title="Welcome to oapisip’s documentation!"
+             accesskey="P">назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">документация oapisip 1</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Основы алгоритмизации</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="id1">
+<h1>Основы алгоритмизации<a class="headerlink" href="#id1" title="Ссылка на этот заголовок">¶</a></h1>
+<section id="id2">
+<h2>Алгоритм и свойства алгоритма<a class="headerlink" href="#id2" title="Ссылка на этот заголовок">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Алгоритм</dt>
+<dd class="field-odd"><p>точное предписание, которое задается вычислительному процессу и представляет собой конечную последовательность обычных элементарных действий, четко определяющую процесс преобразования исходных данных в искомый результат</p>
+</dd>
+</dl>
+<section id="id3">
+<h3>Свойства алгоритма<a class="headerlink" href="#id3" title="Ссылка на этот заголовок">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Конечность</strong>. Должен заканчиваться за конечное число шагов.</p></li>
+<li><p><strong>Элементарность (понятность)</strong>. Каждый шаг алгоритма должен быть простым, чтобы устройство, выполняющее операции,могло выполнить его одним действием</p></li>
+<li><p><strong>Дискретность</strong>. Процесс решения задачи представляется конечной последовательностью отдельных шагов, и каждый шаг алгоритма выполняется за конечное (не обязательно единичное) время.</p></li>
+<li><p><strong>Детерминированность (определенность)</strong>. Каждый шаг алгоритма должен быть однозначно и недвусмысленно определен и не должен допускать произвольной трактовки. После каждого шага либо указывается, какой шаг делать дальше, либо дается команда остановки, после чего работа алгоритма считается законченной.</p></li>
+<li><p><strong>Результативность</strong>. Алгоритм имеет некоторое число входных величин — аргументов. Цель выполнения алгоритма состоит в получении конкретного результата, имеющего отношение к исходным данным.</p></li>
+<li><p><strong>Массовость</strong>. Алгоритм должен быть применим для некоторого класса задач, различающихся лишь исходными данными.</p></li>
+<li><p><strong>Эффективность</strong>. Необходимо приводить алгоритм к состоянию, чтобы он состоял из минимального числа шагов и при этом решение удовлетворяло бы условию точности и требовало минимальных затрат других ресурсов.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Типы алгоритмических моделей<a class="headerlink" href="#id4" title="Ссылка на этот заголовок">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Вычислительный алгоритм</p></li>
+<li><p>Устройство, выполняющее примитивные операции</p></li>
+<li><p>Формальные алгоритмы</p></li>
+</ol>
+<p>Запись алгоритма на некотором языке представляет собой программу. Если программа написана на специальном алгоритмическом языке (например, на ПАСКАЛе или С++), то говорят об исходной программе. Программа, написанная на языке, который непосредственно понимает компьютер (как правило, это двоичные коды), называется машинной, или двоичной.</p>
+</section>
+<section id="id5">
+<h3>Основные способы записи алгоритмов<a class="headerlink" href="#id5" title="Ссылка на этот заголовок">¶</a></h3>
+<ul class="simple">
+<li><p>вербальный  —  алгоритм  описывается  на  человеческом  языке;</p></li>
+<li><p>символьный — алгоритм описывается с помощью набора символов;</p></li>
+<li><p>графический — алгоритм описывается с помощью набора графических изображений.</p></li>
+</ul>
+<p>При графическом представлении алгоритм изображается в виде последовательности связанных между собой функциональных блоков, каждый из которых соответствует выполнению одного или нескольких действий.
+Такое графическое представление называется схемой алгоритма или блок-схемой. В блок-схеме каждому типу действий (вводу исходных данных, вычислению значений выражений, проверке условий, управлению повторением действий, окончанию обработки и т. п.) соответствует геометрическая фигура. Блоки соединяются линиями переходов, определяющими очередность выполнения действий.
+<strong>Основные блоки</strong></p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_blocks.png"><img alt="asda" src="../../_images/01_blocks.png" style="width: 597.0px; height: 464.0px;" /></a>
+</figure>
+<section id="id6">
+<h4>Базовые алгоритмические структуры<a class="headerlink" href="#id6" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Алгоритмы можно представлять как некоторые структуры, состоящие из отдельных базовых элементов. Логическая структура любого алгоритма может быть представлена комбинацией трех базовых структур: следование, ветвление, цикл.
+Характерной особенностью базовых структур является наличие в них одного входа и одного выхода.</p>
+<p>Следование – действия выполняются строго в том порядке, в котором записаны. Образуется последовательностью действий, следующих одно за другим.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_if.png"><img alt="asda" src="../../_images/01_if.png" style="width: 495.0px; height: 351.0px;" /></a>
+</figure>
+<section id="id7">
+<h5>Ветвление<a class="headerlink" href="#id7" title="Ссылка на этот заголовок">¶</a></h5>
+<dl class="field-list simple">
+<dt class="field-odd">Ветвление</dt>
+<dd class="field-odd"><p>Форма организации действий, при которой в зависимости от справедливости проверяемого условия алгоритм может пойти по одной из двух возможных ветвей. Происходит выбор одного из альтернативных путей работы алгоритма. Каждый из путей ведет к общему выходу, так что работа алгоритма будет продолжаться независимо от того, какой путь будет выбран</p>
+</dd>
+</dl>
+<ol class="arabic simple">
+<li><p><strong>Неполная форма ветвления (если…то, if…then)</strong></p></li>
+</ol>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_if.png"><img alt="asda" src="../../_images/01_if.png" style="width: 495.0px; height: 351.0px;" /></a>
+</figure>
+<ol class="arabic simple" start="2">
+<li><p><strong>Полная форма ветвления (если…то…иначе, if…then…else)</strong></p></li>
+</ol>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_if_then.png"><img alt="asda" src="../../_images/01_if_then.png" style="width: 681.0px; height: 366.0px;" /></a>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p><strong>Выбор (select case)</strong></p></li>
+</ol>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_case.png"><img alt="asda" src="../../_images/01_case.png" style="width: 599.0px; height: 557.0px;" /></a>
+</figure>
+</section>
+<section id="id8">
+<h5>Цикл<a class="headerlink" href="#id8" title="Ссылка на этот заголовок">¶</a></h5>
+<dl class="field-list simple">
+<dt class="field-odd">Цикл</dt>
+<dd class="field-odd"><p>Форма организации действий, при которой одна и та же последовательность шагов алгоритма выполняется несколько раз или ни разу в зависимости от проверяемого условия</p>
+</dd>
+</dl>
+<ol class="arabic simple">
+<li><p><strong>Цикл с параметром (for)</strong> – тело цикла выполняется для всех значений некоторой переменной (<em>параметра</em> цикла) в заданном диапазоне;</p></li>
+</ol>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_for.png"><img alt="asda" src="../../_images/01_for.png" style="width: 416.0px; height: 381.0px;" /></a>
+</figure>
+<ol class="arabic simple" start="2">
+<li><p><strong>Цикл с предусловием (while)</strong> – тело цикла выполняется до тех пор, пока выполняется условие;</p></li>
+</ol>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_while.png"><img alt="asda" src="../../_images/01_while.png" style="width: 458.0px; height: 334.0px;" /></a>
+</figure>
+<ol class="arabic simple" start="3">
+<li><p><strong>Цикл с постусловием (repeat…until)</strong> – тело цикла выполняется до тех пор, пока условие <strong>не</strong> выполняется;</p></li>
+</ol>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_until.png"><img alt="asda" src="../../_images/01_until.png" style="width: 424.0px; height: 300.0px;" /></a>
+</figure>
+<ol class="arabic simple" start="4">
+<li><p><strong>Вложенные циклы</strong></p></li>
+</ol>
+<p>Возможны случаи, когда внутри тела цикла необходимо повторять некоторую последовательность операторов, т. е. организовать внутренний цикл. Глубина вложения циклов (то есть количество вложенных друг в друга циклов) может быть различной.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>При использовании такой структуры необходимо помнить, что параметр внутреннего цикла меняется быстрее параметра внешнего, при одном значении параметра внешнего цикла параметр внутреннего пробегает все свои возможные значения</p>
+</div>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_forin.png"><img alt="asda" src="../../_images/01_forin.png" style="width: 480.0px; height: 413.0px;" /></a>
+</figure>
+</section>
+</section>
+</section>
+<section id="id9">
+<h3>Данные и величины<a class="headerlink" href="#id9" title="Ссылка на этот заголовок">¶</a></h3>
+<p>В программировании изучаются методы программного управления работой компьютера, который выступает в качестве исполнителя. Компьютер работает с величинами — различными информационными объектами: числами, символами, кодами и др., поэтому алгоритмы, предназначенные для управления компьютером, называются алгоритмами работы с величинами.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Данные</dt>
+<dd class="field-odd"><p>Совокупность величин, с которыми работает компьютер.</p>
+</dd>
+</dl>
+<p>По отношению к программе различают исходные, окончательные (результаты) и промежуточные данные, которые получают в процессе вычислений.
+Величина имеет три основных свойства: <strong>имя, значение и тип</strong>. На уровне команд процессора величина идентифицируется при помощи адреса ячейки памяти, в которой она хранится. В алгоритмах и языках программирования величины делятся на <em>константы и переменные</em>
+<strong>Костанта</strong> — неизменная величина, и в алгоритме она представляется собственным значением, например: 15, 34.7, k, true и т.д.
+<strong>Переменная</strong> может изменять свои значения в ходе выполнения программы и представляется символическим именем — <strong>идентификатором</strong>, например: X, S2, cod 15.</p>
+<p>Тип данных</p>
+<dl class="field-list simple">
+<dt class="field-odd">Тип данных</dt>
+<dd class="field-odd"><p>определяет множество значений, которые может принимать переменная и множество допустимых опе:раций</p>
+</dd>
+</dl>
+<p>В любой язык входит минимально необходимый набор основных типов данных, к которому относятся: <em>целый, вещественный, логический и символьный</em> типы</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_data_type.png"><img alt="asda" src="../../_images/01_data_type.png" style="width: 657.0px; height: 709.0px;" /></a>
+</figure>
+</section>
+<section id="id10">
+<h3>Примеры алгоритмов<a class="headerlink" href="#id10" title="Ссылка на этот заголовок">¶</a></h3>
+<section id="id11">
+<h4>Линейный вычислительный алгоритм<a class="headerlink" href="#id11" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="field-list simple">
+<dt class="field-odd">Пример</dt>
+<dd class="field-odd"><p>Создать алгоритм деления обыкновенных дробей.</p>
+</dd>
+</dl>
+<p><strong>Математическая модель:</strong></p>
+<ol class="arabic simple">
+<li><p>Числитель первой дроби умножить на знаменатель второй дроби.</p></li>
+<li><p>Знаменатель первой дроби умножить на числитель второй дроби.</p></li>
+<li><p>Записать дробь, числитель которой есть результат выполнения пункта 1, а знаменатель — результат выполнения пункта 2.</p></li>
+</ol>
+<p>Алгебраическая форма:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_lin_form.png"><img alt="asda" src="../../_images/01_lin_form.png" style="width: 228.0px; height: 89.0px;" /></a>
+</figure>
+<p>Блок - схема и текст на алгоритмическом языке (псевдокоде) выглядят следующим образом:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_lin_graph.png"><img alt="asda" src="../../_images/01_lin_graph.png" style="width: 665.0px; height: 403.0px;" /></a>
+</figure>
+<p>Данный алгоритм имеет линейную структуру. В нем все команды выполняются в строго однозначной последовательности, каждая по одному разу. Линейный алгоритм составляется из команд присваивания, ввода, вывода. При описании алгоритмов в блок-схемах типы, как правило,не указываются (но подразумеваются).
+В алгоритмах на АЯ для всех переменных типы указываются явно. Описание типов переменных производится сразу после заголовка алгоритма. В них используются следующие обозначения типов: цел — целый тип, вещ — вещественный тип, лит — символьный (литерный) тип, лог — логический тип. В алгоритме для деления дробей для всех переменных указан целый тип.</p>
+</section>
+<section id="id12">
+<h4>Ветвление<a class="headerlink" href="#id12" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Составить алгоритм решения квадратного уравнения  ax<sup>2</sup>+ bx + c = 0</p>
+<p><strong>Математическая модель</strong></p>
+<p>Решением в общем случае будут два корня x<sub>1</sub>, и x<sub>2</sub> , которые вычисляются по формуле:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_x12.png"><img alt="asda" src="../../_images/01_x12.png" style="width: 253.0px; height: 101.0px;" /></a>
+</figure>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_mm_kvur.png"><img alt="asda" src="../../_images/01_mm_kvur.png" style="width: 876.0px; height: 248.0px;" /></a>
+</figure>
+<p><strong>Блок-схема</strong> алгоритма представлена на рисунке</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_sh_kvur.png"><img alt="asda" src="../../_images/01_sh_kvur.png" style="width: 882.0px; height: 693.0px;" /></a>
+</figure>
+<p><strong>Псевдокод</strong></p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_ps_kvur.png"><img alt="asda" src="../../_images/01_ps_kvur.png" style="width: 708.0px; height: 611.0px;" /></a>
+</figure>
+</section>
+<section id="id13">
+<h4>Циклы<a class="headerlink" href="#id13" title="Ссылка на этот заголовок">¶</a></h4>
+<p>Дано целое положительное число п. Требуется вычислить n! (n-факториал).</p>
+<p><strong>Математическая модель</strong></p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_task_fact.png"><img alt="asda" src="../../_images/01_task_fact.png" style="width: 328.0px; height: 96.0px;" /></a>
+</figure>
+<dl class="field-list simple">
+<dt class="field-odd">Таблица трассировки</dt>
+<dd class="field-odd"><p>Метод, используемый для тестирования алгоритмов, чтобы убедиться, что во время обработки вычислений не возникает логических ошибок. Таблица обычно имеет форму многоколоночной таблицы с несколькими строками; В каждом столбце показана переменная, а в каждой строке-каждое число, введенное в алгоритм, и последующие значения переменных.</p>
+</dd>
+</dl>
+<p><strong>Блок-схема</strong>
+В алгоритме используются три переменные целого типа: <em>n</em> — аргумент; <em>i</em>—промежуточнаяпеременная; <em>F</em> — результат. Для проверки правильности алгоритма построена трассировочная таблица.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_sh_fact.png"><img alt="asda" src="../../_images/01_sh_fact.png" style="width: 723.0px; height: 663.0px;" /></a>
+</figure>
+<p><strong>Псевдокод</strong></p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_ps_fact.png"><img alt="asda" src="../../_images/01_ps_fact.png" style="width: 383.0px; height: 303.0px;" /></a>
+</figure>
+<p>В алгоритме использована структурная команда <em>цикл-пока</em>, или <em>цикл с предусловием</em>. Общий вид команды цикл-пока в блок-схемах и в алгоритмических языках следующий:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_cikl_ps.png"><img alt="asda" src="../../_images/01_cikl_ps.png" style="width: 663.0px; height: 274.0px;" /></a>
+</figure>
+<p>Выполнение серии команд (<strong>тела цикла</strong>) повторяется, пока условие цикла истинно. Когда условие становится ложным, цикл заканчивает выполнение. Служебные слова <strong>нц</strong> и <strong>кц</strong> обозначают начало цикла и конец цикла соответственно.</p>
+</section>
+<section id="id14">
+<h4>Вспомогательные алгоритмы<a class="headerlink" href="#id14" title="Ссылка на этот заголовок">¶</a></h4>
+<dl class="field-list simple">
+<dt class="field-odd">Вспомогательный алгоритм</dt>
+<dd class="field-odd"><p>Алгоритм, целиком используемый в составе другого алгоритма.</p>
+</dd>
+</dl>
+<p>Составить алгоритм вычисления степенной функции с целым показателем у = х<sup>k</sup>, где к — целое число, не равное 0</p>
+<p><strong>Математическая модель</strong></p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_task_va.png"><img alt="asda" src="../../_images/01_task_va.png" style="width: 221.0px; height: 153.0px;" /></a>
+</figure>
+<p>Для данной задачи в качестве подзадачи можно рассматривать возведение числа в целую положительную степень.
+Основной алгоритм будет выглядеть следующим образом:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_ps_va1.png"><img alt="asda" src="../../_images/01_ps_va1.png" style="width: 519.0px; height: 357.0px;" /></a>
+</figure>
+<p>Дважды используется команда обращения к вспомогательному алгоритму с именем СТЕПЕНЬ. Это алгоритм возведения вещественного основания в целую положительную степень путем его многократного перемножения. Величины, стоящие в скобках в команде обращения к вспомогательному алгоритму, называются фактическими параметрами.
+Вспомогательные алгоритмы оформляются в виде процедур. Процедура СТЕПЕНЬ будет выглядеть так:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/01_ps_va2.png"><img alt="asda" src="../../_images/01_ps_va2.png" style="width: 582.0px; height: 240.0px;" /></a>
+</figure>
+<p>а и k — формальные параметры-аргументы, z — параметр-результат.
+Между формальными и фактическими параметрами процедуры должны выполняться следующие правила соответствия:
+* по количеству (сколько формальных, столько и фактических параметров);
+* по последовательности (первому формальному соответствует первый фактический параметр, второму — второй и т.д.);
+* по типам (типы соответствующих формальных и фактических параметров должны совпадать)</p>
+<p>Обращение к процедуре инициирует следующие действия:</p>
+<ol class="arabic simple">
+<li><p>Значения параметров-аргументов присваиваются соответствующим формальным параметрам.</p></li>
+<li><p>Выполняется тело процедуры (команды внутри процедуры).</p></li>
+<li><p>Значение результата передается соответствующему фактическому параметру, и происходит переход к выполнению следующей команды основного алгоритма.</p></li>
+</ol>
+<p>Использование процедур позволяет строить сложные алгоритмы методом <em>последовательной детализации</em></p>
+<p>asd <span class="math notranslate nohighlight">\(a^2 + b^2 = c^2\)</span></p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}(a + b)^2 = a^2 + 2ab + b^2\\\frac{3}{4}\end{aligned}\end{align} \]</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>Продолжение следует…</p>
+</section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Оглавление</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Основы алгоритмизации</a><ul>
+<li><a class="reference internal" href="#id2">Алгоритм и свойства алгоритма</a><ul>
+<li><a class="reference internal" href="#id3">Свойства алгоритма</a></li>
+<li><a class="reference internal" href="#id4">Типы алгоритмических моделей</a></li>
+<li><a class="reference internal" href="#id5">Основные способы записи алгоритмов</a><ul>
+<li><a class="reference internal" href="#id6">Базовые алгоритмические структуры</a><ul>
+<li><a class="reference internal" href="#id7">Ветвление</a></li>
+<li><a class="reference internal" href="#id8">Цикл</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9">Данные и величины</a></li>
+<li><a class="reference internal" href="#id10">Примеры алгоритмов</a><ul>
+<li><a class="reference internal" href="#id11">Линейный вычислительный алгоритм</a></li>
+<li><a class="reference internal" href="#id12">Ветвление</a></li>
+<li><a class="reference internal" href="#id13">Циклы</a></li>
+<li><a class="reference internal" href="#id14">Вспомогательные алгоритмы</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Предыдущий раздел</h4>
+  <p class="topless"><a href="../../index.html"
+                        title="предыдущая глава">Welcome to oapisip’s documentation!</a></p>
+  <div role="note" aria-label="source link">
+    <h3>Эта страница</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/chapters/01_algo/01_algo.rst.txt"
+            rel="nofollow">Исходный текст</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Быстрый поиск</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Искать" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Навигация</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="Алфавитный указатель"
+             >указатель</a></li>
+        <li class="right" >
+          <a href="../../index.html" title="Welcome to oapisip’s documentation!"
+             >назад</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">документация oapisip 1</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Основы алгоритмизации</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, qwe.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.1.2.
+    </div>
+  </body>
+</html>

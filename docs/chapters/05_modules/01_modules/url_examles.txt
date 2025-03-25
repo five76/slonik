@@ -1,0 +1,3 @@
+https://smartiqa.ru/python-workbook/if-else
+https://infourok.ru/sbornik-zadach-uslovnyj-operator-v-python-6735363.html
+https://metanit.com/python/practice/2.php
