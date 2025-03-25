@@ -58,7 +58,7 @@ html_theme = 'furo'
 #html_sidebars = {
 #    "**": ["about.html", "searchbox.html", "localtoc.html", "navigation.html"]
 #}
-html_title = 'Основы Python'
+html_title = 'PostgreSQL'
 html_theme_options = {
     "prev_next_buttons_location": "both",
     "navigation_with_keys": True,
