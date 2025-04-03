@@ -101,7 +101,7 @@
 
 .. tabularcolumns:: |p{3cm}|p{10cm}|
 
-.. csv-table:: Lorem Ipsum
+.. csv-table:: Расположение файлов и подкаталогов в базовом каталоге
 	:file: _files/tables.csv
 	:header-rows: 1
 	:class: longtable
