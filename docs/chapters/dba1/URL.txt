@@ -1,0 +1,3 @@
+Кластер. Табличные пространства
+
+https://datafinder.ru/products/fizicheskaya-struktura-klastera-baz-dannyh-postgresql
