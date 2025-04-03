@@ -99,3 +99,11 @@
 
 Подробнее: https://postgrespro.ru/docs/postgresql/16/app-initdb
 
+.. tabularcolumns:: |p{1cm}|p{7cm}|
+
+.. csv-table:: Lorem Ipsum
+
+	:file: _files/tables.csv
+	:header-rows: 1
+	:class: longtable
+	:widths: 1 1
