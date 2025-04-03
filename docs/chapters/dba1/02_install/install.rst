@@ -102,7 +102,6 @@
 .. tabularcolumns:: |p{1cm}|p{7cm}|
 
 .. csv-table:: Lorem Ipsum
-
 	:file: _files/tables.csv
 	:header-rows: 1
 	:class: longtable
