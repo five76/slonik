@@ -170,7 +170,7 @@
 символ ";" - обязательно.
 
 .. figure:: img/02_select_now.png
-       :scale: 50 %
+       :scale: 100 %
        :align: center
        :alt: asda
 
@@ -199,7 +199,7 @@
 	sudo -u postgres pg_ctl -D /var/lib/pgsql/data reload
 	
 .. figure:: img/02_reload.png
-       :scale: 50 %
+       :scale: 100 %
        :align: center
        :alt: asda
 
@@ -217,7 +217,7 @@
 	sudo ls -al /var/lib/pgsql/data/log
 	
 .. figure:: img/02_ls_log.png
-       :scale: 50 %
+       :scale: 100 %
        :align: center
        :alt: asda
 
@@ -228,7 +228,7 @@
 	sudo tail -10 /var/lib/pgsql/data/log/
 
 .. figure:: img/02_log_tail.png
-       :scale: 50 %
+       :scale: 100 %
        :align: center
        :alt: asda
 
