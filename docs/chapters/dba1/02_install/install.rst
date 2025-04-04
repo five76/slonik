@@ -115,3 +115,91 @@
 	:class: longtable
 	:widths: 30, 70
 
+Управление сервером
+********************
+
+К основным операциям управления сервером относятся:
+
+- запуск и останов сервера;
+- получение текущего статуса сервера;
+- обновление конфигурации и некоторые другие.  
+
+Для выполнения этих действий предназначена утилита **pg_ctl**, идущая в составе PostgreSQL. 
+
+**pg_ctl** должна выполняться от имени владельца кластера баз данных (postgres).
+
+Запуск сервера
+===============
+
+::
+
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data start
+	
+**-D** - ключ указания каталога кластера
+
+.. figure:: img/02_start.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+Для проверки работоспособности сервера можно воспользоваться терминальным клиентом для работы с PostgreSQL **psql**.
+
+Подробнее: https://postgrespro.ru/docs/postgresql/16/app-psql
+
+
+Подключение к кластеру:
+------------------------
+
+::
+
+	psql -U postgres
+	
+**-U** - ключ указания имени пользователя
+
+.. figure:: img/02_psql_01.png
+       :scale: 50 %
+       :align: center
+       :alt: asda
+
+Ввести запрос:
+
+::
+
+	SELECT now();
+	
+символ ";" - обязательно.
+
+.. figure:: img/02_select_now.png
+       :scale: 50 %
+       :align: center
+       :alt: asda
+
+Для выхода из psql исползуется сочетание клавиш **CTRL+D**
+
+Останов сервера
+---------------
+
+::
+
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data stop
+	
+
+Перезапуск сервера
+---------------
+
+::
+
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data restart
+	
+Перечитать файлы конфигурации
+------------------------------
+
+::
+
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data reload
+	
+.. figure:: img/02_reload.png
+       :scale: 50 %
+       :align: center
+       :alt: asda
+
