@@ -35,7 +35,7 @@
 
 **/conninfo** - вывод информации о текущем подключении:
 
-.. figure:: img/03_conninfo
+.. figure:: img/03_conninfo.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -93,7 +93,7 @@
 
 	\c dvdrental
 	
-.. figure:: img/03_conn_dvdrental
+.. figure:: img/03_conn_dvdrental.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -136,7 +136,7 @@ https://postgrespro.ru/docs
 
 	SELECT * FROM actor LIMIT 5;
 
-.. figure:: img/03_dvd_01
+.. figure:: img/03_dvd_01.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -146,7 +146,7 @@ https://postgrespro.ru/docs
 	SELECT * FROM actor
 	WHERE last_name LIKE 'G%';
 
-.. figure:: img/03_dvd_02
+.. figure:: img/03_dvd_02.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -158,7 +158,7 @@ https://postgrespro.ru/docs
 
 По-умолчанию результат выводится в виде таблицы с заголовками:
 
-.. figure:: img/03_dvd_02
+.. figure:: img/03_dvd_02.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -172,14 +172,14 @@ https://postgrespro.ru/docs
 
 Отключение выравнивания:
 
-.. figure:: img/03_dvd_a
+.. figure:: img/03_dvd_a.png
        :scale: 100 %
        :align: center
        :alt: asda
 	   
 Отключение заголовков:
 
-.. figure:: img/03_dvd_t
+.. figure:: img/03_dvd_t.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -196,7 +196,7 @@ https://postgrespro.ru/docs
 
 	\pset
 
-.. figure:: img/03_pset
+.. figure:: img/03_pset.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -210,11 +210,65 @@ https://postgrespro.ru/docs
 ::
 	\t
 	\pset fieldsep ','
-
-.. figure:: img/03_pset01
+	
+.. figure:: img/03_pset01.png
        :scale: 100 %
        :align: center
        :alt: asda
+
+Отправка результата запроса в файл:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	   
+Для того, чтобы отправить результат запроса SQL в файл можно завершить ввод запроса 
+командой **\g** с указанием имени файла:
+
+::
+	SELECT * FROM actor
+	WHERE last_name LIKE 'G%' \g actor.csv
+	
+
+Отправка результата запроса в туннель:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	   
+Для того, чтобы отправить результат запроса SQL в файл можно завершить ввод запроса 
+командой **\g** с указанием имени файла:
+
+::
+	SELECT * FROM actor
+	WHERE last_name LIKE 'G%' \g | cat -n
+
+В результате выполнится запрос и его результат будет отправлен команде Linux **cat** в конвейере
+	
+Выполнение команд shell из psql
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Синтаксис:
+
+::
+
+	\! <команда >
+
+Просмотр содержимого файла:
+
+::
+	
+	\! actor.csv
+	
+.. figure:: img/03_cat_01.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+::
+	
+	\! pwd
+
+.. figure:: img/03_pwd.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+
 
 
 	
