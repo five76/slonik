@@ -7,3 +7,4 @@ DBA1
 
    01_intro/history
    02_install/install
+   03_psql/psql
