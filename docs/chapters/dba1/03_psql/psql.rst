@@ -93,7 +93,7 @@
 
 	\c dvdrental
 	
-.. figure:: img/03_conn_dvd_rental
+.. figure:: img/03_conn_dvdrental
        :scale: 100 %
        :align: center
        :alt: asda
@@ -125,9 +125,35 @@ https://postgrespro.ru/docs
 - **\\h  команда** синтаксис команды SQL
 - **\\q** выход
 
+Ввод команд SQL и вывод результата
+**********************************
+
+Комманды SQL можно вводить в одной строке, но так как они могут быть очень длинными, то ввод можно разбивать на несколько строк.
+
+.. important:: Окончанием ввода команды является символ "точка-с-запятой".
+
+::
+
+	SELECT * FROM actor LIMIT 5;
+
+.. figure:: img/03_dvd_01
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+::
+
+	SELECT * FROM actor
+	WHERE last_name LIKE 'G%';
+
+.. figure:: img/03_dvd_02
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Приглашение вида **-#** означает продолжение ввода команды SQL.
 
 
-
-
+	
 
 
