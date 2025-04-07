@@ -269,6 +269,35 @@ https://postgrespro.ru/docs
        :alt: asda
 
 
+Расширенный формат вывода
+===========================
+
+**\x** - позволяет "инвертировать" вывод результата запроса, преобразовав столбцы в строки. 
+
+Удобно использовать в случае большого количества столбцов, вывод которых не помещается в экран.
+
+::
+	\x
+	Expanded display is on
+	SELECT * FROM actor
+	WHERE last_name LIKE 'G%';
+
+.. figure:: img/03_x1.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+::
+	\a \t
+	SELECT * FROM actor
+	WHERE last_name LIKE 'G%';
+
+.. figure:: img/03_x.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Для отключения данного режима необходимо повторно ввести **\x**
 
 
 	
