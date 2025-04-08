@@ -398,8 +398,8 @@ https://postgrespro.ru/docs
 
 Для отключения повторно ввести **\o**
 
-Переменные окружения
--------------------------------
+Работа с переменными
+=====================
 
 Установить переменную окружения
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -412,7 +412,7 @@ https://postgrespro.ru/docs
 	\setenv PGDATA1 /home/admin/data1
 	\! mkdir PGDATA1
 	\! ls -al
-	
+
 Получение переменной окружения
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -428,6 +428,17 @@ https://postgrespro.ru/docs
 ::
 
 	\getenv hostname HOSTNAME
+
+Получение списка переменных 
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**\set** - без параметров
+
+::
+
+	\set
+	
+
 	
 Установить значение переменной (для сеанса):
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -449,19 +460,81 @@ https://postgrespro.ru/docs
 
 	\unset hostname
 	
+Создание переменной из запроса
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+**\gset**
 
+В переменную count_film записать количество имеющихся фильмов:
+
+::
+
+	SELECT count(*) as count_film FROM film \gset
+	\echo :count_film
+
+.. figure:: img/03_gset.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
 
 
 	
-	
+Ветвтление в psql
+=======================
 
-	
+.. figure:: img/03_if.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
 
-	
-	
-Переменные psql и управляющие конструкции
-==========================================
+Конструкция **:{?имя_переменной}** позволяет проверить, определена ли переменная.
 
-****
+Проверить, определена ли переменная *working_dir* и если нет, то создать ее:
 
+::
+	\if :{?working_dir}
+	\else
+    \set working_dir `pwd`
+    \endif
+
+
+::
+
+	\echo :working_dir
+	
+Работа с системным каталогом
+==============================
+
+Получение информации об объектах базы данных
+
+.. figure:: img/03_d.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+::
+
+	\d actor
+	
+.. figure:: img/03_d_actor.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+::
+
+	\d pg_tables
+	
+.. figure:: img/03_d_pgtables.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+::
+
+	\dS+ pg_tables
+
+.. figure:: img/03_d_s_pgtables.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
