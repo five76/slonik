@@ -230,8 +230,7 @@ https://postgrespro.ru/docs
 Отправка результата запроса в туннель:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	   
-Для того, чтобы отправить результат запроса SQL в файл можно завершить ввод запроса 
-командой **\g** с указанием имени файла:
+Для того, чтобы отправить результат запроса SQL для обработки командой нужно ввести **\g** с указанием имени команды:
 
 ::
 	SELECT * FROM actor
@@ -252,7 +251,7 @@ https://postgrespro.ru/docs
 
 ::
 	
-	\! actor.csv
+	\! cat actor.csv
 	
 .. figure:: img/03_cat_01.png
        :scale: 100 %
@@ -277,6 +276,7 @@ https://postgrespro.ru/docs
 Удобно использовать в случае большого количества столбцов, вывод которых не помещается в экран.
 
 ::
+
 	\x
 	Expanded display is on
 	SELECT * FROM actor
@@ -288,6 +288,7 @@ https://postgrespro.ru/docs
        :alt: asda
 
 ::
+
 	\a \t
 	SELECT * FROM actor
 	WHERE last_name LIKE 'G%';
@@ -297,9 +298,170 @@ https://postgrespro.ru/docs
        :align: center
        :alt: asda
 
+Расширенный режим де	ствует до конца сеанса или до принудительного отключения.
+
 Для отключения данного режима необходимо повторно ввести **\x**
+
+**\gx** - включение расширенного режима на один запрос
+
+::
+
+	SELECT * FROM actor
+	WHERE last_name LIKE 'G%';
+	
+Создание и выполнение скриптов
+=================================
+
+С помощью psql можно сформировать файл, содержимое которого будет являться скриптом:
+
+::
+
+	SELECT format('SELECT count(*) FROM film_actor WHERE film_id=%s;', film_id) FROM film;
+	
+Спецификатор **%s** функции **format** заменяется при выполнении строкой, указанной вторым аргументом. 
+
+.. figure:: img/03_script_01.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Выполнение скрипта из терминала
+----------------------------------
+
+Для выполнения сформированного скрипта непосредственно в psql необходимо указать метакоманду **\gexec**:
+
+::
+
+	SELECT format('SELECT count(*) FROM film_actor WHERE film_id=%s;', film_id) 
+	FROM film
+	LIMIT 3
+	\gexec
+	
+.. figure:: img/03_script_02.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+Для перенаправления в файл указать **\g**
+
+::
+
+	SELECT format('SELECT count(*) FROM film_actor WHERE film_id=%s;', film_id) 
+	FROM film
+	LIMIT 3
+	\g (tuples_only=on format=unaligned) count_actor
+
+::
+
+	\! cat count_actor
+	
+.. figure:: img/03_script_03.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	
+Выполнение скрипта из файла
+----------------------------------
+
+\i count_actor
+
+.. figure:: img/03_script_04.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Выполнение скриптов sql из shell
+----------------------------------
+
+::
+
+	psql < filename
+	psql -f filename
+	
+Взаимодействие с ОС
+=====================
+
+Вывод во внешний файл
+---------------------
+
+::
+
+	\o[utput] <file_name>
+	
+::
+
+	\o temp_result
+	SELECT tablename FROM pg_tables LIMIT 10;
+	\! cat temp_result
+	
+Действие метакоманды распространяется до конца сеанса или до повторного применения.
+
+Для отключения повторно ввести **\o**
+
+Переменные окружения
+-------------------------------
+
+Установить переменную окружения
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+**\setenv** - установить переменную окружения
+
+::
+
+	\setenv PGDATA1 /home/admin/data1
+	\! mkdir PGDATA1
+	\! ls -al
+	
+Получение переменной окружения
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Вывод списка переменных окружения:
+
+::
+
+	\! env | less
+
+
+**\getenv** - получить переменную окружения
+
+::
+
+	\getenv hostname HOSTNAME
+	
+Установить значение переменной (для сеанса):
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+	\set ip_add 10.10.5.10
+	
+Для вывода значения переменной необходимо поставить символ "двоеточие"
+
+::
+
+	\echo :hostname :ip_add
+
+Сброс переменной
+^^^^^^^^^^^^^^^^
+
+::
+
+	\unset hostname
+	
+
+
 
 
 	
+	
 
+	
+
+	
+	
+Переменные psql и управляющие конструкции
+==========================================
+
+****
 
