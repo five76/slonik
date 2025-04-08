@@ -1,5 +1,5 @@
-DBA1
-####
+slonik_01
+#########
 
 .. toctree::
    :maxdepth: 4
@@ -8,3 +8,4 @@ DBA1
    01_intro/history
    02_install/install
    03_psql/psql
+   04_config/config

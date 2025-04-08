@@ -6,9 +6,7 @@ PostgreSQL
    :caption: Оглавление
 
    chapters/dba1/index.rst
-   chapters/dba2/index.rst
-   chapters/dba3/index.rst
-   
+   chapters/dba2/index.rst 
     
 
 Indices and tables
