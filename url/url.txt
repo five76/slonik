@@ -1,0 +1,11 @@
+Практика
+
+https://sysadminium.ru/sistemnyj_katalog_v_postgresql/
+
+WAL
+****
+https://habr.com/ru/companies/quadcode/articles/679616/
+
+redo undo
+-----
+https://pravin.dev/database-engineering-fundamental-part-5/wal-redo-and-undo-logs-in-postgres/
