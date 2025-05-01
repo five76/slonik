@@ -9,3 +9,9 @@ https://habr.com/ru/companies/quadcode/articles/679616/
 redo undo
 -----
 https://pravin.dev/database-engineering-fundamental-part-5/wal-redo-and-undo-logs-in-postgres/
+
+
+
+Admin
+Kill process
+https://www.commandprompt.com/education/how-to-kill-a-process-id-in-postgresql/
