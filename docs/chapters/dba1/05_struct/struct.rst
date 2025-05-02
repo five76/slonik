@@ -174,6 +174,37 @@ psql работает в режиме автофиксации, то есть л
        :align: center
        :alt: asda
 	
+4. Во втором сеансе начать новую транзакцию:
 
+::
 
+	| BEGIN;
+	|INSERT INTO pr_lang VALUES (2,'Java');
 
+4. В первом сеансе сделать выборку:
+
+::
+
+	SELECT * FROM pr_lang;
+	
+Новые данные не видны.
+
+.. figure:: img/05_trans_02.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+5. Зафиксировать транзакцию втором сеансе и повторить выборку в первом сеансе.
+
+::
+
+	| COMMIT;
+
+::
+
+	SELECT * FROM pr_lang;
+	
+.. figure:: img/05_trans_03.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
