@@ -1,3 +1,11 @@
+Устройство PGSQL
+
+Планирование
+https://habr.com/ru/companies/postgrespro/articles/574702/
+
+
+
+
 Практика
 
 https://sysadminium.ru/sistemnyj_katalog_v_postgresql/
