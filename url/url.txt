@@ -1,8 +1,17 @@
+
+PostgPython_Examples
+
+https://www.tutorialspoint.com/python_postgresql/python_postgresql_quick_guide.htm
+
+
 Устройство PGSQL
 
 Планирование
 https://habr.com/ru/companies/postgrespro/articles/574702/
 
+Курсоры
+
+https://progpython.ru/stati/prochee/bazy-dannyh/16760/pogruzhenie-v-postgresql-vse-o-kursorah-i-ih-ispolzovanii/
 
 
 
