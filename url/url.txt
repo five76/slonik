@@ -5,6 +5,7 @@ https://www.tutorialspoint.com/python_postgresql/python_postgresql_quick_guide.h
 
 
 Устройство PGSQL
+https://snakeproject.ru/rubric/files/doc/postgres_arch.pdf
 
 Планирование
 https://habr.com/ru/companies/postgrespro/articles/574702/
@@ -21,6 +22,21 @@ https://datafinder.ru/products/arhitektura-processov-postgresql
 https://www.postgresql.org/docs/current/bgworker.html
 
 
+Пул
+----
+
+https://habr.com/ru/companies/hikasami/articles/884820/
+https://eax.me/pgbouncer/
+
+Хранение данных
+------------------
+
+https://habr.com/ru/articles/841674/
+
+Буфер
+-----
+https://habr.com/ru/articles/458952/
+
 
 Практика
 
@@ -34,8 +50,17 @@ redo undo
 -----
 https://pravin.dev/database-engineering-fundamental-part-5/wal-redo-and-undo-logs-in-postgres/
 
-
-
 Admin
 Kill process
 https://www.commandprompt.com/education/how-to-kill-a-process-id-in-postgresql/
+
+tmux
+-----
+https://losst.pro/shpargalka-po-tmux
+
+
+DBA2
+
+Локализация
+https://rutube.ru/video/0f27974d2bae193efd225563ffe7f03d/
+
