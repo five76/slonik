@@ -624,7 +624,7 @@ PostgreSQL позволяет подключаться сразу несколь
 .. tabularcolumns:: |p{3cm}|p{10cm}|
 
 .. csv-table:: Расположение файлов в базовом каталоге
-	:file: _files/files.csv
+	:file: _files/proc.csv
 	:header-rows: 1
 	:class: longtable
 	:widths: 30, 70
