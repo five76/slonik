@@ -13,6 +13,13 @@ https://habr.com/ru/companies/postgrespro/articles/574702/
 
 https://progpython.ru/stati/prochee/bazy-dannyh/16760/pogruzhenie-v-postgresql-vse-o-kursorah-i-ih-ispolzovanii/
 
+Процессы
+-----------
+https://datafinder.ru/products/arhitektura-processov-postgresql
+Фоновые процессы
+*************
+https://www.postgresql.org/docs/current/bgworker.html
+
 
 
 Практика
