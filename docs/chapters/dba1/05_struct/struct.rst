@@ -623,9 +623,38 @@ PostgreSQL позволяет подключаться сразу несколь
 
 .. tabularcolumns:: |p{3cm}|p{10cm}|
 
-.. csv-table:: Расположение файлов в базовом каталоге
+.. csv-table:: Процессы Postgres
 	:file: _files/proc.csv
 	:header-rows: 1
 	:class: longtable
 	:widths: 30, 70
 
+Процессы, связанные с репликацией, выполняют потоковую репликацию.
+
+Фоновые рабочие процессы, поддерживаемые в версии 9.3 и новее, могут выполнять любую обработку данных. 
+
+Практика:
+
+Отобразить процессы экземпляра сервера:
+
+1. Получить глмер процесса:
+
+::
+
+	cat /var/lib/pgsql/data/postmaster.pid
+
+.. figure:: img/05_proc_03.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+2. Вывести дочерние процессы сервера:
+
+::
+
+	ps -f --ppid 3602
+	
+.. figure:: img/05_proc_04.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
