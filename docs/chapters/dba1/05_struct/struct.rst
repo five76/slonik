@@ -621,8 +621,10 @@ PostgreSQL позволяет подключаться сразу несколь
 
 Выполняют задачи по управлению базой данных, такие как обработка VACUUM и CHECKPOINT;
 
-.. csv-table:: Процессы PostgreSQL
-	:file: _files/proc.csv
+.. tabularcolumns:: |p{3cm}|p{10cm}|
+
+.. csv-table:: Расположение файлов в базовом каталоге
+	:file: _files/files.csv
 	:header-rows: 1
 	:class: longtable
 	:widths: 30, 70
