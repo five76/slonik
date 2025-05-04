@@ -64,3 +64,6 @@ DBA2
 Локализация
 https://rutube.ru/video/0f27974d2bae193efd225563ffe7f03d/
 
+Многоверсионность
+----------------
+https://habr.com/ru/companies/postgrespro/articles/444536/
