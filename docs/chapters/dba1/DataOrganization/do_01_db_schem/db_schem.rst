@@ -129,6 +129,7 @@ https://postgrespro.ru/docs/postgresql/16/creating-cluster
 4.2) Установить пакет pgcrypto в template1:
 
 ::
+
 	psql -U postgres
 	\c template1
 	CREATE EXTENSION pgcrypto;
