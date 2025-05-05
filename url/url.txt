@@ -17,6 +17,8 @@ https://progpython.ru/stati/prochee/bazy-dannyh/16760/pogruzhenie-v-postgresql-v
 Процессы
 -----------
 https://datafinder.ru/products/arhitektura-processov-postgresql
+
+
 Фоновые процессы
 *************
 https://www.postgresql.org/docs/current/bgworker.html
@@ -64,7 +66,10 @@ https://losst.pro/shpargalka-po-tmux
 
 https://habr.com/ru/amp/publications/813781/
 
-
+Временные таблицы
+-----------------
+https://habr.com/ru/companies/lsfusion/articles/754476/
+https://sky.pro/wiki/sql/sozdanie-vremennykh-tablits-v-sql-cherez-postgre-sql/
 
 
 DBA2
