@@ -59,6 +59,14 @@ tmux
 https://losst.pro/shpargalka-po-tmux
 
 
+
+Организация данных:
+
+https://habr.com/ru/amp/publications/813781/
+
+
+
+
 DBA2
 
 Локализация
