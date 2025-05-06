@@ -315,3 +315,10 @@
 ::
 	
 	SELECT pg_size_pretty( pg_tablespace_size('my_ts') );
+
+.. figure:: img/do_02_tbspc_14.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+	  
