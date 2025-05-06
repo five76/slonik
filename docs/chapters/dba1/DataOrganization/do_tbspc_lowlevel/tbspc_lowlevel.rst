@@ -229,7 +229,7 @@
 
 	CREATE TABLE t(
     n integer
-	) TABLESPACE ts;
+	) TABLESPACE my_ts;
 
 ::
 
@@ -321,4 +321,72 @@
        :align: center
        :alt: asda
 	   
-	  
+Размер табличного просторанства my_ts обусловлен наличием в нем таблиц системного каталога, по причине того, что оно установлено по умолчанию.
+
+Удаление табличного пространства
+----------------------------------
+
+Удалить можно только пустое ТП.
+
+Синтаксис:
+
+::
+	
+	DROP TABLESPACE <name_tblspc>;
+
+::
+
+	DROP TABLESPACE my_ts;
+
+Удаление не выполнено, так как ТП содержит объекты, причем принадлежаз-жие разным базам данных.
+
+С помощью системного каталога получим перечень баз данных, использующих это ТП:
+
+::
+
+	SELECT oid FROM pg_tablespace WHERE spcname = 'my_ts'; 
+
+.. figure:: img/do_02_tbspc_15.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	
+::
+	SELECT datname
+	FROM pg_database
+	WHERE oid IN (SELECT pg_tablespace_databases(16772));
+
+.. figure:: img/do_02_tbspc_16.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+	 
+::
+	\c configdb
+
+::
+
+	SELECT relnamespace::regnamespace, relname, relkind
+	FROM pg_class
+	WHERE reltablespace = 16772;
+
+.. figure:: img/do_02_tbspc_17.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+::
+
+	DROP TABLE t;
+	
+В базе фззви my_ts установлено по умолчанию. ПО этой причине идентификатор ТП 
+будет равен 0. И все таблицы системного каталога находятся в этом пространстве. 
+Необходимо перенести все эти объекты в табличное пропростраство pg_default, а потом удалить my_ts.
+
+::
+
+	\c postgres
+	ALTER DATABASE appdb SET TABLESPACE pg_default;
+	DROP TABLESPACE my_ts;
+

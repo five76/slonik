@@ -235,10 +235,10 @@ https://postgrespro.ru/docs/postgresql/17/sql-alterdatabase
 **Схемы** предсставляют собой пространства имен для всех объектов, хранящихся в базе данных. 
 Они содержат именованные объекты других видов, включая таблицы, типы данных, функции, операторы и прочее.
 
-..figure:: img/do_01_schema00.png
-		   :scale: 100 %
-		   :align: center
-		   :alt: asda	
+.. figure:: img/do_01_schema00.png
+       :scale: 100 %
+       :align: center
+       :alt: asda	
 
 Каждый объект, существующий в базе данных, принадлежит какой-либо схеме.
 
@@ -1000,7 +1000,7 @@ OID могут быть полезны в случае:
 
 	SELECT a.attname, a.atttypids
 	FROM pg_attribute a
-	WHERE a.attrelid = 'employees'::regclass
+	WHERE a.attrelid = 'actor'::regclass
 	AND a.attnum > 0;
 
 .. figure:: img/do_01_oid_reg_03.png
@@ -1014,7 +1014,7 @@ OID могут быть полезны в случае:
 
 	SELECT a.attname, a.atttypid::regtype
 	FROM pg_attribute a
-	WHERE a.attrelid = 'employees'::regclass
+	WHERE a.attrelid = 'actor'::regclass
 	AND a.attnum > 0;
 	
 
