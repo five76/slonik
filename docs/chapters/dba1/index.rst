@@ -5,8 +5,6 @@ slonik_01
    :maxdepth: 4
    :caption: Оглавление
 
-   01_intro/history
-   02_install/install
-   03_psql/psql
-   04_config/config
+   01_Base/index
    DataOrganization/index
+   03_Architecture/index
