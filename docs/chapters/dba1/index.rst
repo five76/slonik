@@ -10,4 +10,3 @@ slonik_01
    03_psql/psql
    04_config/config
    DataOrganization/index
-   Architecture/index
