@@ -347,6 +347,10 @@ PostgreSQL дает пользователю возможность написа
 Подробнее:
 https://postgrespro.ru/docs/postgresql/16/query-path
 
+Дополнительно:
+
+https://habr.com/ru/companies/postgrespro/articles/574702/
+
 
 Расширенный режим выполнения запросов
 ======================================
