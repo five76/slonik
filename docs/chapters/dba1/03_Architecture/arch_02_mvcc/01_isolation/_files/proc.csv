@@ -3,3 +3,6 @@
 "UPDATE accounts SET amount = amount - 100 WHERE id = 2;"," "
 " ","BEGIN;"
 " ","SELECT amount FROM accounts WHERE id = 2;"
+"UPDATE accounts SET amount = amount + 100 WHERE id = 3;"," "
+"COMMIT;"," "
+" ","SELECT amount FROM accounts WHERE id = 3;"

@@ -373,13 +373,18 @@ Ivan - 2 счета на общую суму 1000 ₽:
 
 .. tabularcolumns:: |p{10cm}|p{10cm}|
 
-.. csv-table:: Расположение подкаталогов в базовом каталоге
+.. csv-table:: Несогласованное чтение 
 	:file: _files/proc.csv
 	:header-rows: 1
 	:class: longtable
 	:widths: 50, 50
 
 
+.. figure:: img/01_isol_rc_04.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
 
 
 Несогласованное чтение в обмен на потерянные изменения
