@@ -1,0 +1,11 @@
+Транзакция 1,Транзакция 2, Транзакция 3
+"BEGIN ISOLATION LEVEL REPEATABLE READ;","BEGIN ISOLATION LEVEL REPEATABLE READ;"," "
+"--Первая транзакция начисляет Ивану проценты на сумму средств на всех счетах. Проценты зачисляются на один из его счетов:"," "," "
+"UPDATE accounts SET amount = amount + (SELECT sum(amount) FROM accounts WHERE client = 'ivan' ) * 0.01 WHERE id = 2;"," "," "
+" ","--Затем вторая транзакция снимает деньги с другого счета Боба и фиксирует свои изменения:"," "
+" ","BEGIN ISOLATION LEVEL REPEATABLE READ;"," "
+" ","UPDATE accounts SET amount = amount - 100.00 WHERE id = 3;"," "
+" ","COMMIT;"," "
+" "," ","--Начинается третья транзакция"
+" "," ","SELECT * FROM accounts WHERE client = 'anna';"
+
