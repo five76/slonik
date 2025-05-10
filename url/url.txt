@@ -1,4 +1,8 @@
 
+DBA2 - Видеокурс
+https://rutube.ru/video/5d63dddab5778e4d6530a30ed4ac1bcb/?playlist=452252
+
+
 PostgPython_Examples
 
 https://www.tutorialspoint.com/python_postgresql/python_postgresql_quick_guide.htm
@@ -85,3 +89,17 @@ https://aristov.tech/blog/mvcc-v-postgresql/
 
 Хранение
 https://habr.com/ru/articles/841674/
+
+MVCC
+---------
+https://postgrespro.ru/blog/pgsql/17758
+https://sysadminium.ru/izolyaciya_i_mnogoversionnost_v_postgresql/
+
+
+УровниИзоляций
+----------------
+
+https://habr.com/ru/companies/postgrespro/articles/442804/
+https://habr.com/ru/articles/815323/
+
+
