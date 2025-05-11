@@ -86,10 +86,6 @@ https://postgrespro.ru/docs/postgresql/16/storage-page-layout#PAGE-TABLE
 
 	get_raw_page(relname text, blkno bigint) returns bytea
 
-
-	   
-
-
 Документация:
 
 https://www.postgresql.org/docs/current/pageinspect.html
@@ -674,102 +670,136 @@ z/Architecture использует обратный порядок (big-endian)
 ::
 
 	BEGIN;
-	INSERT INTO t(n) VALUES (42) RETURNING *, ctid, xmin, xmax;
+	INSERT INTO t(s) VALUES ('foo') RETURNING *, ctid, xmin, xmax;
 	
-ID  | s | ctid  | xmin | xmax 
------+---+-------+------+------
- 3  |foo| (0,1) | 1051 |    0
+.. figure:: img/02_string_page_23.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+
+Поставить точку сохранения и удалить строку:
+
+::
+
+	SAVEPOINT sp;
+	DELETE FROM t RETURNING *, ctid, xmin, xmax;
  
-(1 row)
+.. figure:: img/02_string_page_24.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
 
-INSERT 0 1
-Ставим точку сохранения и удаляем строку.
-
-=> SAVEPOINT sp;
-SAVEPOINT
-=> DELETE FROM t RETURNING *, ctid, xmin, xmax;
- n  | s | ctid  | xmin | xmax 
-----+---+-------+------+------
- 42 |   | (0,1) |  753 |  754
-(1 row)
-
-DELETE 1
 Обратите внимание: функция pg_current_xact_id() выдает номер основной, а не вложенной, транзакции:
 
-=> SELECT pg_current_xact_id();
- pg_current_xact_id 
---------------------
-                753
-(1 row)
+::
+
+	SELECT pg_current_xact_id();
 
 Откатимся к точке сохранения. Версии строк в странице остаются на месте, но изменится статус вложенной транзакции:
 
-=> ROLLBACK TO sp;
-ROLLBACK
-=> SELECT pg_xact_status('753') xid,
-          pg_xact_status('754') subxid;
-     xid     | subxid  
--------------+---------
- in progress | aborted
-(1 row)
+::
 
+	ROLLBACK TO sp;
+
+::
+	SELECT pg_xact_status('753') xid, pg_xact_status('754') subxid;
+
+.. figure:: img/02_string_page_25.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	
 Запрос к таблице снова покажет строку — ее удаление было отменено:
 
-=> SELECT *, ctid, xmin, xmax FROM t;
- n  | s | ctid  | xmin | xmax 
-----+---+-------+------+------
- 42 |   | (0,1) |  753 |  754
-(1 row)
+::
 
-Для дальнейших изменений создается новая вложенная транзакция. Ее номер будет записан в поле xmax первой версии строки вместо номера отмененной вложенной транзакции 754 и в поле xmin новой версии:
+	SELECT *, ctid, xmin, xmax FROM t;
+	
+.. figure:: img/02_string_page_26.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
 
-=> UPDATE t SET n = n + 1
-  RETURNING *, ctid, xmin, xmax;
- n  | s | ctid  | xmin | xmax 
-----+---+-------+------+------
- 43 |   | (0,2) |  755 |    0
-(1 row)
+Для дальнейших изменений создается новая вложенная транзакция. 
+Ее номер будет записан в поле xmax первой версии строки вместо номера отмененной вложенной транзакции 754 и в поле xmin новой версии:
 
-UPDATE 1
-=> SELECT pg_xact_status('753') xid,
-          pg_xact_status('754') subxid1,
-          pg_xact_status('755') subxid2;
-     xid     | subxid1 |   subxid2   
--------------+---------+-------------
- in progress | aborted | in progress
-(1 row)
+::
 
-Фиксируем изменения. При этом в таблице, как и прежде, ничего не меняется:
+	UPDATE t SET s='bar';
+	SELECT *, ctid, xmin, xmax FROM t;
+	
+.. figure:: img/02_string_page_27.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	
+::
+	SELECT pg_xact_status('1057') xid,
+    pg_xact_status('1058') subxid1,
+    pg_xact_status('1059') subxid2;
 
-=> COMMIT;
-COMMIT
-=> SELECT * FROM t_v;
- ctid  | state  | xmin | xmax | xmin_c | xmin_a | xmax_c | xmax_a 
--------+--------+------+------+--------+--------+--------+--------
- (0,1) | normal |  753 |  755 |        |        |        | 
- (0,2) | normal |  755 |    0 |        |        |        | t
-(2 rows)
+.. figure:: img/02_string_page_28.png
+       :scale: 100 %
+       :align: center
+       :alt: asda	
+	
+
+Зафиксировать изменения. При этом в таблице, как и прежде, ничего не меняется:
+
+::
+
+	COMMIT;
+    SELECT * FROM t_v;
+
+.. figure:: img/02_string_page_29.png
+       :scale: 100 %
+       :align: center
+       :alt: asda		
+	
 
 А в CLOG основная транзакция и все вложенные, которые еще не завершены, получают статус committed:
 
-=> SELECT pg_xact_status('753') xid,
-          pg_xact_status('754') subxid1,
-          pg_xact_status('755') subxid2;
-    xid    | subxid1 |  subxid2  
------------+---------+-----------
- committed | aborted | committed
-(1 row)
+::
+	SELECT pg_xact_status('1057') xid,
+    pg_xact_status('1058') subxid1,
+    pg_xact_status('1059') subxid2;
+	
+	
+.. figure:: img/02_string_page_30.png
+       :scale: 100 %
+       :align: center
+       :alt: asda	
 
 Информация о вложенности транзакций хранится в подкаталоге pg_subtrans каталога PGDATA. Она кешируется в общей памяти, как и информация о статусах транзакций:
 
-=> SELECT name, blks_hit, blks_read, blks_written
-FROM pg_stat_slru WHERE name = 'Subtrans';
-   name   | blks_hit | blks_read | blks_written 
-----------+----------+-----------+--------------
- Subtrans |        2 |         0 |            5
-(1 row)
+::
 
+	SELECT name, blks_hit, blks_read, blks_written
+	FROM pg_stat_slru WHERE name = 'Subtrans';
 
+.. figure:: img/02_string_page_31.png
+       :scale: 100 %
+       :align: center
+       :alt: asda	
+
+**blks_hit**  - cколько раз дисковые блоки обнаруживались в буферном кеше, 
+так что чтение с диска не потребовалось (в значение входят только случаи обнаружения в буферном кеше PostgreSQL, а не в кеше файловой системы ОС)
+
+**blks_written** - Количество дисковых блоков, записанных из этого SLRU-кеша
+
+Применение механизма вложенных транзаций:
+
+- при ручном создании точек сохранения;
+
+- в приложениях, когда создается блок обработки исключительых ситуаций *EXCEPTION*. *Save point* создается сразу при входе в блок. При возникновении исключительной
+ситуации идет откат к этой точке сохранения. В данном случае счетчик транзакций быстро растет
+
+- режим **ON_ERROR_ROLLBACK** в psql, при включении которого транзакция, выполнившая ошибочную операцию, не прерывается, а продолжает работать. 
+Данный режим не включен по умолчанию. Дело в том, что ошибка может произойти где-то в середине выполнения оператора, 
+и таким образом нарушится атомарность выполнения оператора. 
+Единственный способ отменить  изменения, уже сделанные этим оператором, не трогая остальные изменения — использовать вложенные транзакции. 
+Поэтому режим ON_ERROR_ROLLBACK фактически ставит перед каждой командой неявную точку сохранения, что повышает накладные расходы.
 
 Дополнительно:
 ==============
@@ -779,3 +809,13 @@ FROM pg_stat_slru WHERE name = 'Subtrans';
 https://habr.com/ru/articles/890718/
 
 
+Самостоятельно
+**************
+
+1. Создайте таблицу и вставьте в нее одну строку. Затем дважды обновите эту строку и удалите ее. 
+Сколько версий строк находится сейчас в таблице? Проверьте, используя расширение pageinspect.
+
+2. Определите, в какой странице находится строка таблицы pg_class, относящаяся к самой таблице pg_class. 
+Сколько актуальных версий строк находится в той же странице?
+
+3. Включите в psql параметр ON_ERROR_ROLLBACKи убедитесь, что этот режим использует вложенные транзакции.
