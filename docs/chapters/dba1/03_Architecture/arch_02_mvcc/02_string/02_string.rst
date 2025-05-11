@@ -676,9 +676,10 @@ z/Architecture использует обратный порядок (big-endian)
 	BEGIN;
 	INSERT INTO t(n) VALUES (42) RETURNING *, ctid, xmin, xmax;
 	
- ID  | s | ctid  | xmin | xmax 
+ID  | s | ctid  | xmin | xmax 
 -----+---+-------+------+------
- 3   |foo| (0,1) | 1051 |    0
+ 3  |foo| (0,1) | 1051 |    0
+ 
 (1 row)
 
 INSERT 0 1
