@@ -488,7 +488,7 @@ z/Architecture использует обратный порядок (big-endian)
 В целом, схема может ыть представлена следующим образом:
 
 .. figure:: img/02_string_del.png
-       :scale: 100 %
+       :scale: 75 %
        :align: center
        :alt: asda
 
@@ -563,7 +563,7 @@ z/Architecture использует обратный порядок (big-endian)
 Выглядит это примерно так:
 
 .. figure:: img/02_string_rollback.png
-       :scale: 100 %
+       :scale: 75 %
        :align: center
        :alt: asda
 
@@ -625,7 +625,7 @@ z/Architecture использует обратный порядок (big-endian)
 Для этого транзакция с точкой сохранения разбивается на несколько вложенных транзакций (subtransaction), статусом которых можно управлять отдельно.
 
 .. figure:: img/02_string_savepoint.png
-       :scale: 100 %
+       :scale: 75 %
        :align: center
        :alt: asda
 
@@ -690,7 +690,7 @@ z/Architecture использует обратный порядок (big-endian)
        :align: center
        :alt: asda
 
-Обратите внимание: функция pg_current_xact_id() выдает номер основной, а не вложенной, транзакции:
+При этом функция **pg_current_xact_id()** выдает номер основной, а не вложенной, транзакции:
 
 ::
 
