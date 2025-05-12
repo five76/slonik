@@ -1,0 +1,8 @@
+Транзакция 1,Транзакция 2
+"BEGIN;"," "
+"SELECT get_amount(id), pg_sleep(5)FROM accounts WHERE client = 'ivan';"," "
+" ","--Перенос средств обратно"
+" ","BEGIN;"
+" ","UPDATE accounts SET amount = amount + 100 WHERE id = 2;"
+" ","UPDATE accounts SET amount = amount - 100 WHERE id = 3;"
+" ","COMMIT;"
