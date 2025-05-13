@@ -8,3 +8,4 @@
    01_isolation/01_isolation
    02_string/02_string
    03_snapshot/03_snapshot
+   04_hot/04_hot

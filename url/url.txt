@@ -103,3 +103,6 @@ https://habr.com/ru/companies/postgrespro/articles/442804/
 https://habr.com/ru/articles/815323/
 
 
+Индексы
+-------
+https://pcnews.ru/blogs/b_tree_indeks_i_ego_proizvodnye_v_postgresql-1207113.html#gsc.tab=0

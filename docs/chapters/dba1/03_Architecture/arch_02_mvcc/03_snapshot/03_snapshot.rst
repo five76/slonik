@@ -351,6 +351,7 @@ pg_dump должен видеть одну и ту же картину данн�
 Пример:
 
 ::
+	
 	BEGIN ISOLATION LEVEL REPEATABLE READ;
 	SELECT count(*) FROM accounts; 
 
