@@ -102,6 +102,10 @@ https://sysadminium.ru/izolyaciya_i_mnogoversionnost_v_postgresql/
 https://habr.com/ru/companies/postgrespro/articles/442804/
 https://habr.com/ru/articles/815323/
 
+HOT обновления
+----------------
+https://habr.com/ru/companies/postgrespro/articles/449704/
+
 
 Индексы
 -------
