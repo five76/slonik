@@ -90,6 +90,10 @@ https://aristov.tech/blog/mvcc-v-postgresql/
 Хранение
 https://habr.com/ru/articles/841674/
 
+Хранение пустых (NULL) значений в таблицах PostgreSQL
+-------------------------------------------------
+https://habr.com/ru/articles/890718/
+
 MVCC
 ---------
 https://postgrespro.ru/blog/pgsql/17758
@@ -105,6 +109,10 @@ https://habr.com/ru/articles/815323/
 HOT обновления
 ----------------
 https://habr.com/ru/companies/postgrespro/articles/449704/
+
+Блокировки
+-----------
+https://habr.com/ru/companies/postgrespro/articles/462877/
 
 
 Индексы
