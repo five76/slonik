@@ -118,3 +118,8 @@ https://habr.com/ru/companies/postgrespro/articles/462877/
 Индексы
 -------
 https://pcnews.ru/blogs/b_tree_indeks_i_ego_proizvodnye_v_postgresql-1207113.html#gsc.tab=0
+
+
+source
+-----------
+https://edu.postgrespro.ru/16/dba2-16/
