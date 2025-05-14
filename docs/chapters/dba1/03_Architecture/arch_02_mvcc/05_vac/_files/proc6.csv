@@ -1,0 +1,3 @@
+Транзакция 1,Транзакция 2
+"BEGIN ISOLATION LEVEL REPEATABLE READ;","BEGIN ISOLATION LEVEL REPEATABLE READ;"
+"SELECT sum(amount) FROM accounts WHERE client = 'ivan';","SELECT sum(amount) FROM accounts WHERE client = 'ivan';"
