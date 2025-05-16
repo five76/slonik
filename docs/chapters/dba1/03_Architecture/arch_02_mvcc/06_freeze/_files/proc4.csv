@@ -1,0 +1,13 @@
+Транзакция 1,Транзакция 2
+"BEGIN;"," "
+"UPDATE accounts SET amount = 200.00 WHERE id = 2;"," "
+"UPDATE accounts SET amount = 800.00 WHERE id = 3;"," "
+"INSERT INTO accounts VALUES (4, '3001', 'pavel', 100.00);"," "
+"SELECT * FROM accounts ORDER BY id;"," "
+" ","--начать транзакцию с уровнем REPEATABLE READ"
+" ","BEGIN ISOLATION LEVEL REPEATABLE READ;"
+" ","SELECT * FROM accounts ORDER BY id;"
+"--зафиксировать первую транзакцию"," "
+"COMMIT;"," "
+" ","SELECT * FROM accounts ORDER BY id;"
+" ","--Результат не изменится"

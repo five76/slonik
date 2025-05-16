@@ -1,0 +1,12 @@
+Транзакция 1,Транзакция 2
+"BEGIN;"," "
+"UPDATE accounts SET amount = amount - 100 WHERE id = 3;"," "
+" ","--начисляет проценты на все счета клиентов с общим балансом, равным или превышающим 1000 ₽:"
+" ","BEGIN;"
+" ","UPDATE accounts SET amount = amount * 1.01"
+" ","WHERE client IN ("
+" ","SELECT client "
+" ","FROM accounts "
+" ","GROUP BY client "
+" ","HAVING sum(amount) >= 1000 "
+" ",");"
