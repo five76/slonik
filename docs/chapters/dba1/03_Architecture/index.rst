@@ -7,4 +7,5 @@
 
    arch_01_struct/struct
    arch_02_mvcc/index
+   arch_03_log/index
    
