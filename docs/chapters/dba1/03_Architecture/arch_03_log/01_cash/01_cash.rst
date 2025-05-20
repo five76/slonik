@@ -560,48 +560,261 @@ reuses — число повторных использований буферо
 
 А теперь сбросим статистику и изменим все строки таблицы. При этом буферы со страницами будут отсоединяться от буферного кольца и оставаться в кеше:
 
-=> SELECT pg_stat_reset_shared('io');
- pg_stat_reset_shared 
-----------------------
+::
+
+	SELECT pg_stat_reset_shared('io');
+	
+::
+
+	EXPLAIN (analyze,buffers,costs off,timing off,summary off)
+	UPDATE big SET s = s || '!';
+	
+.. figure:: img/cash_23.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Сейчас в кеше находятся все или почти все страницы таблицы, количество которых удвоилось из-за появления новых версий строк.
+Обновление берет страницу, пытается поместить на нее измененную версию строки, а там нет места, поэтому версия строки помещается в другую страницу, и, 
+соответственно, таблица в два раза выросла. 
+::
+
+	SELECT relfork, count(*) FROM pg_buffercache_v WHERE relname = 'big' GROUP BY relfork;
  
-(1 row)
-
-=> EXPLAIN (analyze,buffers,costs off,timing off,summary off)
-UPDATE test SET t = t || '!';
-                           QUERY PLAN                            
------------------------------------------------------------------
- Update on test (actual rows=0 loops=1)
-   Buffers: shared hit=98604 read=4256 dirtied=8574 written=4312
-   ->  Seq Scan on test (actual rows=30001 loops=1)
-         Buffers: shared hit=32 read=4254 written=25
- Planning:
-   Buffers: shared hit=4 read=2 dirtied=1
-(6 rows)
-
-Сейчас в кеше находятся все или почти все страницы таблицы, количество которых удвоилось из-за появления новых версий строк:
-
-=> SELECT relfork, count(*) FROM pg_buffercache_v WHERE relname = 'test' GROUP BY relfork;
- relfork | count 
----------+-------
- fsm     |     3
- main    |  8547
-(2 rows)
+.. figure:: img/cash_24.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
 
 Еще раз заглянем в статистику.
 
-=> SELECT context, reads, hits, reuses FROM pg_stat_io
-WHERE backend_type = 'client backend' AND
-      object = 'relation' AND
-      context IN ('normal', 'bulkread');
- context  | reads |  hits  | reuses 
-----------+-------+--------+--------
- bulkread |  4254 |     32 |     25
- normal   |    10 | 220917 |       
-(2 rows)
+::
+
+	SELECT context, reads, hits, reuses FROM pg_stat_io
+	WHERE backend_type = 'client backend' AND
+        object = 'relation' AND
+        context IN ('normal', 'bulkread');
+	  
+ 
+.. figure:: img/cash_25.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
 
 Таблица еще раз полностью сканируется через буферное кольцо. 
 При этом 32 страницы остались в кольце от предыдущего сканирования, 
 а остальные пришлось прочитать заново. Измененные страницы одна за другой передаются в общий кеш, 
 обращения к ним учитываются в строке normal. 
-При этом обновление каждой из 30 тысяч строк таблицы требует нескольких обращений к страницам, поэтому значение в поле hits довольно велико.
+При этом обновление каждой строки таблицы требует нескольких обращений к страницам, поэтому значение в поле hits довольно велико.
+
+Все странички находятся в буферном кэше и кольцо фактически не действует. Идея обновлять большую таблицу полностью является плохой, 
+потому что размер файла неизбежно увеличивается в два раза. 
+
+.. important:: Правильный способ обновления огромной таблицы в PostgreSQL - это делать обновления небольшими порциями так, 
+               чтобы между ними выполнялась очистка. 
+			   
+Временные таблицы
+*****************
+
+
+Исключением из общего правила являются временные таблицы. Поскольку временные данные видны только одному процессу, 
+то они не используют разделяемый буферный кэш. 
+Более того, временные данные существуют только в рамках одного сеанса, так что их не нужно защищать от сбоя.
+Для временных данных используется облегченный *локальный кеш*.
+
+Поскольку локальный кеш доступен только одному процессу, для него не требуются блокировки, поэтому работа с ним происходит быстрее, 
+не нужно ничего журналировать, не жалко потерять эти данные, если произойдет какой-то сбой, потому что сеанс все равно прервется, 
+а вне пределов этого сеанса временной таблицы не существует. 
+
+Память выделяется по мере необходимости (в пределах, заданных параметром *temp_buffers*), ведь временные таблицы используются далеко не во всех сеансах. 
+В локальном кеше используется обычный алгоритм вытеснения.
+
+Практика:
+=========
+
+1. Создать временную таблицу с одной строкой:
+
+::
+
+	CREATE TEMP TABLE test_tmp(
+	  t text
+	);
+
+::
+
+	INSERT INTO test_tmp VALUES ('a row');
+
+2. В плане выполнения запроса обращение к локальному кешу выглядит как «Buffers: local»:
+
+::
+
+	EXPLAIN (analyze,buffers,costs off,timing off,summary off)
+	SELECT * FROM test_tmp;
+	
+.. figure:: img/cash_26.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+
+::
+
+	SELECT context, hits, extends FROM pg_stat_io
+	WHERE backend_type = 'client backend' AND
+		  object = 'temp relation' AND context = 'normal';
+		  
+.. figure:: img/cash_27.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Вставка строки привела к расширению таблицы (extends).
+
+
+Прогрев кэша
+************
+
+В активно работающей системе после перезапуска сервера кэш пустой и поэтому некоторое время наблюдается снижение производительности.
+Он еще не набрал необходимые данные.
+
+Если это критично и какие-то таблицы совершенно точно должны быть в буферном кэше, например,справочники, к которым часто происходит обращение 
+или что-то еще, то есть возможность сразу после старта прочитать в буферный кэш.
+
+Это решение назыввается , которое называется **pg_prewarm** - прогрев кэша.
+
+
+Расширение pg_prewarm позволяет в ручном режиме прочитать некоторые таблицы либо в кеш операционной системы, либо в буферный кеш СУБД тоже.
+
+Расширение также позволяет в автоматическом режиме восстановить содержимое буферного кеша после перезапуска сервера. 
+
+Для этого необходимо подключить библиотеку расширения, добавив еев параметр *shared_preload_libraries*. В этом случае система запустит фоновый процесс, 
+который будет периодически записывать содержимое разделяемых буферов в файл *autoprewarm.blocks* с тем, чтобы эти блоки подгружались в память 
+при запуске сервера, используя два дополнительных фоновых процесса.
+
+https://postgrespro.ru/docs/postgresql/16/pgprewarm
+
+Практика:
+=========
+
+::
+
+	CREATE EXTENSION pg_prewarm;
+
+Раньше расширение могло только читать определенные таблицы в буферный кеш (или только в кеш ОС). 
+Но в версии PostgreSQL 11 оно получило возможность сохранять актуальное состояние кеша на диск и восстанавливать его же после 
+перезагрузки сервера. Чтобы этим воспользоваться, надо добавить библиотеку в shared_preload_libraries и перезагрузить сервер.
+
+::
+
+	ALTER SYSTEM SET shared_preload_libraries = 'pg_prewarm';
+	
+::
+	
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data restart
+	
+::
+
+	psql -U postgres wal_buffercache
+	
+Поле рестарта, если не менялось значение параметра *pg_prewarm.autoprewarm*, будет автоматически запущен фоновый процесс 
+*autoprewarm master*, который раз в *pg_prewarm.autoprewarm_interval* будет сбрасывать на диск список страниц, находящихся 
+в кеше (учесть новый процесс при установке max_parallel_processes).
+
+::
+
+	SELECT name, setting, unit FROM pg_settings WHERE name LIKE 'pg_prewarm%';
+	
+.. figure:: img/cash_28.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+
+В новом сеансе выполнить:
+
+::
+
+	ps -o pid,command --ppid `head -n 1 /var/lib/pgsql/data/postmaster.pid` | grep prewarm
+	
+	SELECT name, setting, unit FROM pg_settings WHERE name LIKE 'pg_prewarm%';
+	
+.. figure:: img/cash_29.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+В кэше нет таблицы:
+
+
+::
+
+	SELECT count(*)
+	FROM pg_buffercache
+	WHERE relfilenode = pg_relation_filenode('big'::regclass);
+
+.. figure:: img/cash_30.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+	   
+Если она критески важна, то можно загрузить в кэш:
+
+::
+
+	SELECT pg_prewarm('big');
+
+.. figure:: img/cash_31.png
+       :scale: 100 %
+       :align: center
+       :alt: asda 
+
+::
+
+	SELECT count(*)
+	FROM pg_buffercache
+	WHERE relfilenode = pg_relation_filenode('big'::regclass);
+
+Список страниц сбрасывается в файл autoprewarm.blocks. Чтобы его увидеть, можно подождать, 
+пока процесс *autoprewarm master* отработает в первый раз, но мы инициируем это вручную:
+
+::
+
+	 SELECT autoprewarm_dump_now();
+
+Число сброшенных страниц больше 4097 — сюда входят и уже прочитанные сервером страницы объектов системного каталога. 
+
+Файл можно обнаружить на диске:
+
+
+::
+
+	 ls -l /var/lib/pgsql/data/autoprewarm.blocks
+	 
+.. figure:: img/cash_32.png
+       :scale: 100 %
+       :align: center
+       :alt: asda 
+
+Перезагрузить сервер и проверить наличие таблицы в кэше:
+
+::
+	
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data restart
+	
+::
+
+	psql -U postgres wal_buffercache
+
+::
+
+	SELECT count(*)
+	FROM pg_buffercache
+	WHERE relfilenode = pg_relation_filenode('big'::regclass);
+
+
+Это обеспечивает тот же самый процесс *autoprewarm master*: он читает файл, разделяет страницы по базам данных, 
+сортирует их (чтобы чтение с диска было по возможности последовательным) и передает отдельному рабочему процессу *autoprewarm worker* для обработки.
+
+
+
 
