@@ -21,3 +21,6 @@
    :caption: Оглавление
 
    01_cash/01_cash
+   02_wal/02_wal
+   03_checkpoint/03_checkpoint
+   04_tun/04_tun
