@@ -14,3 +14,4 @@
    :caption: Оглавление
 
    01_block/01_block
+   02_block_string/02_block_string
