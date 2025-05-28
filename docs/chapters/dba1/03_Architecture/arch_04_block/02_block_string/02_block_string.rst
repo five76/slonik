@@ -316,3 +316,144 @@ Update и No Key Update
        :align: center
        :alt: asda
 
+Если появляются другие транзакции, конфликтующие с текущей блокировкой версии строки (в данном примере — 112, 122, 132), 
+Первым делом они пытаются захватить блокировку типа *tuple* для этой версии, но это у них не получается, поскольку эта блокировка уже удерживается транзакцией 102.
+Поэтому они в очередь не выстраиваются. Получается своеобразная «очередь», в которой есть первый и все остальные.
+
+.. figure:: img/bl_str_05.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Если бы все прибывающие транзакции занимали очередь  непосредственно за транзакцией 101, 
+при освобождении блокировки  возникала бы ситуация гонки. При неудачном стечении обстоятельств  транзакция 102 могла бы ждать блокировку вечно. 
+Двухуровневая  схема блокирования немного упорядочивает подобную конкуренцию.
+
+Стоит избегать проектных решений, которые предполагают массовые  изменения одной и той же строки. В этом случае возникает «горячая  точка», 
+которая на высоких нагрузках может привести к снижению  производительности.
+
+Практика
+--------
+
+
+Представление locks будет создано над pg_locks. В нем «свернуты» в одно поле идентификаторы разных типов блокировок:
+
+::
+
+	CREATE VIEW locks AS
+	SELECT pid,
+		   locktype,
+		   CASE locktype
+			 WHEN 'relation' THEN relation::regclass::text
+			 WHEN 'virtualxid' THEN virtualxid::text
+			 WHEN 'transactionid' THEN transactionid::text
+			 WHEN 'tuple' THEN relation::regclass::text||':'||page::text||','||tuple::text
+		   END AS lockid,
+		   mode,
+		   granted
+	FROM pg_locks;
+
+
+Пусть одна транзакция заблокирует строку в разделяемом режиме...
+
+::
+
+	| BEGIN;
+	| SELECT pg_current_xact_id(), pg_backend_pid();
+
+	pg_current_xact_id | pg_backend_pid 
+	-------------------+----------------
+	   			752    |         150327
+	(1 row)
+
+::
+
+	SELECT * FROM accounts WHERE acc_no = 1 FOR SHARE;
+	 acc_no | amount  
+	--------+---------
+		  1 | 1000.00
+	(1 row)
+
+...а другая попробует выполнить обновление:
+
+::
+
+	|| BEGIN;
+    || SELECT pg_current_xact_id(), pg_backend_pid();
+
+	pg_current_xact_id | pg_backend_pid 
+	-------------------+----------------
+				   753 |         150478
+	(1 row)
+
+::
+
+	UPDATE accounts SET amount = amount + 100.00 WHERE acc_no = 1;
+
+В представлении pg_locks можно увидеть, что вторая транзакция ожидает завершения первой (granted = f), удерживая при этом блокировку версии строки (locktype = tuple):
+
+::
+
+	|| SELECT * FROM locks WHERE pid = 150478;
+
+ 	 pid   |   locktype    |    lockid     |       mode       | granted 
+	-------+---------------+---------------+------------------+---------
+	150478 | relation      | accounts_pkey | RowExclusiveLock | t
+	150478 | relation      | accounts      | RowExclusiveLock | t
+	150478 | virtualxid    | 3/13          | ExclusiveLock    | t
+	150478 | transactionid | 752           | ShareLock        | f
+	150478 | tuple         | accounts:0,1  | ExclusiveLock    | t
+	150478 | transactionid | 753           | ExclusiveLock    | t
+	(6 rows)
+
+По представлению pg_locks, можно узнать номер (или номера) процесса блокирующего сеанса с помощью функции:
+
+::
+
+	|| SELECT pg_blocking_pids(150478);
+
+	pg_blocking_pids 
+	------------------
+	 {150327}
+	(1 row)
+
+Теперь появляется транзакция, желающая получить несовместимую блокировку.
+
+::
+
+	||| BEGIN;
+	||| SELECT pg_current_xact_id(), pg_backend_pid();
+
+
+	pg_current_xact_id | pg_backend_pid 
+	-------------------+----------------
+				   754 |         150653
+	(1 row)
+
+::
+
+	||| UPDATE accounts SET amount = amount - 100.00 WHERE acc_no = 1;
+
+Она встает в очередь за транзакцией, удерживающей блокировку версии строки (locktype = tuple, granted = f):
+
+::
+
+	||| SELECT * FROM locks WHERE pid = 150653;
+	
+	 pid   |   locktype    |    lockid     |       mode       | granted 
+	-------+---------------+---------------+------------------+---------
+	150653 | relation      | accounts_pkey | RowExclusiveLock | t
+	150653 | relation      | accounts      | RowExclusiveLock | t
+	150653 | virtualxid    | 4/6           | ExclusiveLock    | t
+	150653 | tuple         | accounts:0,1  | ExclusiveLock    | f
+	150653 | transactionid | 754           | ExclusiveLock    | t
+	(5 rows)
+
+::
+
+	||| SELECT pg_blocking_pids(150653);
+
+	 pg_blocking_pids 
+	------------------
+	 {150478}
+	(1 row)
