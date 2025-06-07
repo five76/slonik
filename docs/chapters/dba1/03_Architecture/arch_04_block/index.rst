@@ -15,3 +15,4 @@
 
    01_block/01_block
    02_block_string/02_block_string
+   03_block_ram/03_block_ram

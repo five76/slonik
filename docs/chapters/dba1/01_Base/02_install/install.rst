@@ -18,13 +18,14 @@
 
 ::
 
-    # apt-get update
+    $ sudo apt-get update
 	
 2) Установить программное обеспечение:
 
 ::
 
-	# apt-get install postgresql16-server
+	$ sudo apt-get install postgresql16-server
+	$ sudo apt-get install postgresql16-contrib
 	
 Создание кластера
 *****************
