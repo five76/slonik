@@ -650,18 +650,19 @@ https://postgrespro.ru/docs
 
 ::
 
-	:top5
+	top5
 
+::
 
-   tablename    |  bytes  
-----------------+---------
- pg_proc        | 1245184
- pg_rewrite     |  745472
- pg_attribute   |  720896
- pg_description |  630784
- pg_statistic   |  294912
- 
-(5 rows)
+	   tablename    |  bytes  
+	----------------+---------
+	 pg_proc        | 1245184
+	 pg_rewrite     |  745472
+	 pg_attribute   |  720896
+	 pg_description |  630784
+	 pg_statistic   |  294912
+	 
+	(5 rows)
 
 Если записать эту команду \set в файл ~/.psqlrc, переменная top5 будет доступна сразу после запуска psql.
 
