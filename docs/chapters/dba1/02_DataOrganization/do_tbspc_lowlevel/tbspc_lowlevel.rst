@@ -573,7 +573,40 @@ https://postgrespro.ru/docs/postgresql/16/storage-fsm
 видимости когда транзакция пытается прочитать строку из такой страницы.
 
 
+Для временных таблиц все работает точно также, но для имени добавляется префикс с номером схемы (t4):
+
+::
+
+	SELECT pg_relation_filepath('t');
+    
+	pg_relation_filepath
+	----------------------
+	base/16387/t4_16839
+
+Утилита oid2name позволяеть сопоставить имена таблиц и имена файлов  
+
+::
+	
+	sudo -u postgres /usr/bin/oid2name -d dvdrental -t actor
+::
+
+    Filenode  Table Name
+	----------------------
+    16421       actor
+
+::
+
+	sudo -u postgres /usr/bin/oid2name -d dvdrental -f 16421
+	
+::
+
+	Filenode  Table Name
+	----------------------
+    16421       actor
+
+
 Размер слоев
+--------------
 
 Размер файлов, входящих в слой, можно, конечно, посмотреть в файловой системе, но существует специальная функция для получения размера каждого слоя в отдельности:
 
@@ -588,8 +621,6 @@ https://postgrespro.ru/docs/postgresql/16/storage-fsm
        :align: center
        :alt: asda
 
-Страницы
-========
 
 Файлы логически поделены на страницы.
 
@@ -737,6 +768,7 @@ Storage: extended
 4. Проверить наличие toast-таблицы:
 
 ::
+	
 	SELECT relnamespace::regnamespace, relname
 	FROM pg_class WHERE oid = (
     SELECT reltoastrelid FROM pg_class WHERE relname = 'test'
@@ -768,6 +800,7 @@ Storage: extended
 6. Вставить строку из 3000 случайных символов и проверить размер:
 
 ::
+
 	INSERT INTO test SELECT string_agg( chr(trunc(65+random()*26)::integer), '') FROM generate_series(1,3000);
 	SELECT pg_relation_size('test', 'main');
 
