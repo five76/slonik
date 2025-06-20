@@ -427,8 +427,6 @@ https://postgrespro.ru/docs/postgresql/current/runtime-config-query
 Установить параметр *random_page_cost* в значение 1.1для табличного пространства pg_default.
 
 
-
-
 Слои
 ****
 
@@ -621,6 +619,8 @@ https://postgrespro.ru/docs/postgresql/16/storage-fsm
        :align: center
        :alt: asda
 
+Страницы
+********
 
 Файлы логически поделены на страницы.
 
