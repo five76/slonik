@@ -868,7 +868,7 @@ https://habr.com/ru/articles/888926/
 Размер таблицы
 ==============
 
-.. figure:: img/do_02_forks_14.png
+.. figure:: img/do_02_tbspc_18.png
        :scale: 100 %
        :align: center
        :alt: asda
