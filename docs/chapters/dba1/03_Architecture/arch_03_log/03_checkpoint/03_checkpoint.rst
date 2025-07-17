@@ -591,14 +591,6 @@ select
        :alt: asda
 
 
-
-   backend_type    | writes | fsyncs | extends | op_bytes 
--------------------+--------+--------+---------+----------
- client backend    |      0 |      0 |    4871 |     8192
- background writer |      0 |      0 |         |     8192
- checkpointer      |   5842 |    333 |         |     8192
-(3 rows)
-
 - writes — количество операций записи;
 
 - fsyncs — количество вызовов fsync;
