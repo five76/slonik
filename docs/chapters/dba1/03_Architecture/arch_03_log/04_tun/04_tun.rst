@@ -375,7 +375,7 @@ https://postgrespro.ru/docs/postgresql/16/wal-reliability
 
 	\q
 	
-	sudo -u postgres -D /var/lib/pgsql/data stop
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data stop
 	
 	sudo -u postgres pg_checksums --enable -D /var/lib/pgsql/data
 	
@@ -388,7 +388,7 @@ https://postgrespro.ru/docs/postgresql/16/wal-reliability
 
 ::
 
-	sudo -u postgres -D /var/lib/pgsql/data start
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data start
 	
 	psql -U postgres wal_tuning
 	
@@ -417,14 +417,14 @@ https://postgrespro.ru/docs/postgresql/16/wal-reliability
        :align: center
        :alt: asda
 
-5. Остановить сервер и поменять несколько байтов в странице (сотремы из заголовка LSN последней журнальной записи).
+5. Остановить сервер и поменять несколько байтов в странице (стереть из заголовка LSN последней журнальной записи).
 
 
 ::
 	
 	\q
 	
-	sudo -u postgres -D /var/lib/pgsql/data stop
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data stop
 	
 	sudo -u postgres dd if=/dev/zero of=/var/lib/pgsql/data/base/33604/33618 oflag=dsync conv=notrunc bs=1 count=8
 	
@@ -553,7 +553,7 @@ https://postgrespro.ru/docs/postgresql/16/wal-reliability
 запись останавливается, дойдя до конца кеша, и продолжается с начала кеша уже в следующий раз). 
 При большом потоке изменений это позволяет не синхронизировать одну и ту же страницу несколько раз.
 
--Если же заполненные страницы не появились, записывается текущая (не до конца заполненная) страница журнала
+- Если же заполненные страницы не появились, записывается текущая (не до конца заполненная) страница журнала
 
 Асинхронная запись эффективнее синхронной — фиксация изменений не ждет записи. 
 Однако надежность уменьшается: зафиксированные данные могут пропасть в случае сбоя, если между фиксацией и сбоем прошло менее *3 × wal_writer_delay* единиц времени, 
