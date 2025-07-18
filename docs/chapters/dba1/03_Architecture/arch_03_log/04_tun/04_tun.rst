@@ -271,8 +271,8 @@ replica
 
 
 ..note:: **Fdatasync** — одно из возможных значений параметра wal_sync_method в PostgreSQL. Вызов метода fdatasync() происходит после каждого завершения транзакции (COMMIT). При этом записывается на диск содержимое всех буферов данных, связанных с файлом.
-		  Основное отличие функций fsync и fdatasync заключается в том, что fsync синхронизирует данные и метаданные файла, а fdatasync — только данные. 
-		  https://postgrespro.ru/docs/postgresql/16/runtime-config-wal#GUC-WAL-SYNC-METHOD
+		 Основное отличие функций fsync и fdatasync заключается в том, что fsync синхронизирует данные и метаданные файла, а fdatasync — только данные. 
+		 https://postgrespro.ru/docs/postgresql/16/runtime-config-wal#GUC-WAL-SYNC-METHOD
 
 
 Важно учитывать, что методы записи зависят от операционной системы. В PostgreSQL есть утилита **pg_test_fsync**, которая позволяет определить оптимальный вариант параметра 
