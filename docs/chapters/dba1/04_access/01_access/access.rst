@@ -824,7 +824,13 @@ https://postgrespro.ru/docs/postgresql/16/sql-alterdefaultprivileges
 
 CREATE FUNCTION
 
+При создании таблицы создается сруктурированный тип, состоящий из столбцов этой таблицы.
+То есть будут возвращаться кортежи, состоящие из значений столбцов.
+
+
+
 Сможет ли Боб вызвать ее, если Алиса не выдала ему привилегию EXECUTE?
+В силу того, что Боб является членом псевдоролей public, значит у него привилегия execute на функцию есть:
 
 ::
 
@@ -836,97 +842,108 @@ CREATE FUNCTION
        :alt: asda
 	   
 Вызвать — да, но Боб не сможет получить доступ к объектам, на которые у него нет соответствующих привилегий (столбец who).
+Членство в группе *pg_read_all_data* было отобрано.
 
-Если Боб создаст свою таблицу t2 в схеме public, функция будет работать для обоих пользователей — но с разными таблицами, поскольку у Алисы и Боба разные пути поиска.
 
-Чтобы Боб мог создать таблицу в схеме public, потребуется явно выдать ему привилегию CREATE на схему (начиная с версии PostgreSQL 15):
-
-::
-
-	|| postgres=# GRANT CREATE ON SCHEMA public TO bob;
-
-GRANT
+Другой доступный вариант — объявить функцию как работающую с правами ее владельца:
 
 ::
 
-	| bob=> CREATE TABLE t2(n numeric, who text DEFAULT current_user);
+	alice=> ALTER FUNCTION foo() SECURITY DEFINER;
+	
+ALTER FUNCTION
 
-CREATE TABLE
-::
-
-	| bob=> INSERT INTO t2(n) VALUES (42);
-
-INSERT 0 1
+В этом случае функция всегда будет выполняться с правами Алисы, независимо от того, кто ее вызывает.
 
 ::
 
 	| bob=> SELECT foo();
 	
-   foo    
-----------
- (42,bob)
-(1 row)
+.. figure:: img/04_role22.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
 
-alice=> SELECT foo();
-    foo    
------------
- (1,alice)
- (100,bob)
-(2 rows)
+В этом случае Алисе надо внимательно следить за выданными привилегиями. 
+Скорее всего, потребуется отозвать EXECUTE у роли public и выдавать ее явно только нужным ролям.
 
-Другой доступный вариант — объявить функцию как работающую с правами ее владельца:
+::
 
-alice=> ALTER FUNCTION foo() SECURITY DEFINER;
-ALTER FUNCTION
-В этом случае функция всегда будет выполняться с правами Алисы, независимо от того, кто ее вызывает.
+	alice=> REVOKE EXECUTE ON ALL ROUTINES IN SCHEMA alice FROM public;
 
-Боб удаляет свою таблицу...
-
-bob=> DROP TABLE t2;
-DROP TABLE
-...и получает доступ к содержимому таблицы Алисы:
-
-bob=> SELECT foo();
-    foo    
------------
- (1,alice)
- (100,bob)
-(2 rows)
-
-В этом случае Алисе надо внимательно следить за выданными привилегиями. Скорее всего, потребуется отозвать EXECUTE у роли public и выдавать ее явно только нужным ролям.
-
-alice=> REVOKE EXECUTE ON ALL ROUTINES IN SCHEMA alice FROM public;
 REVOKE
-bob=> SELECT foo();
+
+::
+
+	| bob=> SELECT foo();
+	
 ERROR:  permission denied for function foo
-Но дело осложняется тем, что по умолчанию привилегия на выполнение автоматически выдается роли public на каждую вновь создаваемую функцию.
 
-Для того чтобы конкретные пользователи получали или, наоборот, лишались тех или иных привилегий на вновь создаваемые объекты, можно настроить привилегии по умолчанию:
+Но дело осложняется тем, что по умолчанию привилегия на выполнение автоматически выдается роли public на каждую 
+вновь создаваемую функцию.
 
-alice=> ALTER DEFAULT PRIVILEGES
-FOR ROLE alice
-REVOKE EXECUTE ON ROUTINES FROM public;
+Для того чтобы конкретные пользователи получали или, наоборот, лишались тех или иных привилегий 
+на вновь создаваемые объекты, можно настроить привилегии по умолчанию:
+
+::
+
+	alice=> ALTER DEFAULT PRIVILEGES
+			FOR ROLE alice
+			REVOKE EXECUTE ON ROUTINES FROM public;
+
 ALTER DEFAULT PRIVILEGES
-alice=> ALTER DEFAULT PRIVILEGES
-FOR ROLE alice
-GRANT EXECUTE ON ROUTINES TO bob;
+
+::
+
+	alice=> ALTER DEFAULT PRIVILEGES
+			FOR ROLE alice
+			GRANT EXECUTE ON ROUTINES TO bob;
+
 ALTER DEFAULT PRIVILEGES
-alice=> \ddp
-           Default access privileges
- Owner | Schema |   Type   | Access privileges 
--------+--------+----------+-------------------
- alice |        | function | alice=X/alice    +
-       |        |          | bob=X/alice
-(1 row)
+			
+::
 
-Теперь Боб сразу получает привилегию на выполнение подпрограмм, создаваемых Алисой, а остальные пользователи не смогут их выполнять.
+	alice=> \ddp
 
-alice=> CREATE FUNCTION bar() RETURNS integer
-LANGUAGE sql IMMUTABLE SECURITY DEFINER
-RETURN 1;
+.. figure:: img/04_role23.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Теперь Боб сразу получает привилегию на выполнение подпрограмм, создаваемых Алисой, 
+а остальные пользователи не смогут их выполнять.
+
+::
+
+	alice=> CREATE FUNCTION bar() RETURNS integer
+			LANGUAGE sql IMMUTABLE SECURITY DEFINER
+			RETURN 1;
+			
 CREATE FUNCTION
-bob=> SELECT bar();
- bar 
------
-   1
-(1 row)
+
+::
+
+	bob=> SELECT bar();
+
+
+.. figure:: img/04_role24.png
+       :scale: 100 %
+       :align: center
+       :alt: asda
+
+Практика
+********
+
+Настройте привилегии таким образом, чтобы одни пользователи имели полный доступ к таблицам, а другие могли только запрашивать, но не изменять информацию.
+
+1. Создайте новую базу данных и двух пользователей: writer и reader.
+
+2. Отзовите у роли public все привилегии на схему public, выдайте роли writer обе привилегии, а роли reader — только usage.
+
+3. Настройте привилегии по умолчанию так, чтобы роль reader получала доступ на чтение к таблицам в схеме public, принадлежащим writer.
+
+4. Создайте пользователя w1, включив его в роль writer, и пользователя r1, включив его в reader.
+
+5. Под ролью writer создайте таблицу.
+
+6. Убедитесь, что r1 имеет доступ к таблице только на чтение, а w1 имеет к ней полный доступ, включая удаление.
