@@ -9,3 +9,4 @@ slonik_01
    02_DataOrganization/index
    03_Architecture/index
    04_access/index
+   05_rescopy/index
