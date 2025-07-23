@@ -388,13 +388,13 @@ Update и No Key Update
 
 ::
 
-	UPDATE accounts SET amount = amount + 100.00 WHERE acc_no = 1;
+	|| UPDATE accounts SET amount = amount + 100.00 WHERE acc_no = 1;
 
 В представлении pg_locks можно увидеть, что вторая транзакция ожидает завершения первой (granted = f), удерживая при этом блокировку версии строки (locktype = tuple):
 
 ::
 
-	|| SELECT * FROM locks WHERE pid = 150478;
+	SELECT * FROM locks WHERE pid = 150478;
 
  	 pid   |   locktype    |    lockid     |       mode       | granted 
 	-------+---------------+---------------+------------------+---------
@@ -410,7 +410,7 @@ Update и No Key Update
 
 ::
 
-	|| SELECT pg_blocking_pids(150478);
+	SELECT pg_blocking_pids(150478);
 
 	pg_blocking_pids 
 	------------------
@@ -438,7 +438,7 @@ Update и No Key Update
 
 ::
 
-	||| SELECT * FROM locks WHERE pid = 150653;
+	SELECT * FROM locks WHERE pid = 150653;
 	
 	 pid   |   locktype    |    lockid     |       mode       | granted 
 	-------+---------------+---------------+------------------+---------
@@ -451,7 +451,7 @@ Update и No Key Update
 
 ::
 
-	||| SELECT pg_blocking_pids(150653);
+	SELECT pg_blocking_pids(150653);
 
 	 pg_blocking_pids 
 	------------------
