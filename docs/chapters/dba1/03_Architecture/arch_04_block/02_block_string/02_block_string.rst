@@ -531,7 +531,7 @@ Update и No Key Update
 
 ::
 
-	|| SELECT * FROM locks WHERE pid = 150478; -- U1
+	SELECT * FROM locks WHERE pid = 150478;
 
 	pid   |   locktype    |    lockid     |       mode       | granted 
 	-------+---------------+---------------+------------------+---------
@@ -570,7 +570,7 @@ Update и No Key Update
 UPDATE 1
 :: 
 
-	|| SELECT * FROM pgrowlocks('accounts') \gx
+	SELECT * FROM pgrowlocks('accounts') \gx
 
 	-[ RECORD 1 ]-----------------
 	locked_row | (0,1)
@@ -620,6 +620,7 @@ UPDATE 1
 	UPDATE accounts SET amount = amount + 1 WHERE acc_no = 1;
 
 ::
+	
 	| BEGIN;
 	| LOCK TABLE accounts NOWAIT; -- IN ACCESS EXCLUSIVE MODE
 	
