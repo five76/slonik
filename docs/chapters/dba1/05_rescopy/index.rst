@@ -6,4 +6,5 @@
    :caption: Оглавление
 
    rezcopy_01_logrez/logrez
+   rezcopy_02_baserezcopy/baserezcopy
    
