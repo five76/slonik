@@ -116,8 +116,6 @@ Beta восстанавливает согласованность и запус
 
 	psql -U postgres
 	
-::
-
 .. figure:: img/baserezcopy_03.png
        :scale: 100 %
        :align: center
@@ -272,8 +270,8 @@ https://postgrespro.ru/docs/postgresql/13/app-pgbasebackup
 ::
 
 	postgres@postgres=#SELECT name, setting
-						FROM pg_settings
-						WHERE name IN ('wal_level','max_wal_senders','max_replication_slots');
+					FROM pg_settings
+					WHERE name IN ('wal_level','max_wal_senders','max_replication_slots');
 
         	name          | setting 
 	-----------------------+---------
@@ -295,8 +293,8 @@ https://postgrespro.ru/docs/postgresql/13/app-pgbasebackup
 ::
 
 	postgres@postgres=# SELECT type, database, user_name, address, auth_method
-						FROM pg_hba_file_rules()
-						WHERE 'replication' = ANY(database);
+					FROM pg_hba_file_rules()
+					WHERE 'replication' = ANY(database);
 
 	 type  |   database    | user_name |  address  | auth_method 
 	-------+---------------+-----------+-----------+-------------
