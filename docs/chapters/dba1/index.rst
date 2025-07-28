@@ -10,3 +10,4 @@ slonik_01
    03_Architecture/index
    04_access/index
    05_rescopy/index
+   06_replication/index
