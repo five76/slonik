@@ -1029,75 +1029,115 @@ https://postgrespro.ru/docs/postgresql/13/app-pg-dumpall
 
 Простой пример. Настроим политику так, чтобы не выводились пустые строки, и включим ее для владельца таблицы:
 
-α=> CREATE POLICY t_s_not_null ON t USING (s IS NOT NULL);
-CREATE POLICY
-α=> ALTER TABLE t ENABLE ROW LEVEL SECURITY;
-ALTER TABLE
-α=> ALTER TABLE t FORCE ROW LEVEL SECURITY;
-ALTER TABLE
+::
+
+	A@postgres=# CREATE POLICY t_s_not_null ON t USING (s IS NOT NULL);
+    CREATE POLICY
+::
+
+	A@postgres=# ALTER TABLE t ENABLE ROW LEVEL SECURITY;
+	ALTER TABLE
+
+::
+
+	A@postgres=# ALTER TABLE t FORCE ROW LEVEL SECURITY;
+	ALTER TABLE
 Теперь запрос покажет только две строки:
 
-α=> COPY t TO stdout;
-1	Привет, мир!
-2	
+::
+
+	A@postgres=#  COPY t TO stdout;
+	1	Привет, мир!
+	2	
+
 Но с параметром, установленным в off, будет зафиксирована ошибка:
 
-α=> SET row_security = off;
-SET
-α=> COPY t TO stdout;
-ERROR:  query would be affected by row-level security policy for table "t"
-HINT:  To disable the policy for the table's owner, use ALTER TABLE NO FORCE ROW LEVEL SECURITY.
+::
+
+	A@postgres=#  SET row_security = off;
+	SET
+
+::
+	A@postgres=# COPY t TO stdout;
+	
+	ERROR:  query would be affected by row-level security policy for table "t"
+	HINT:  To disable the policy for the table's owner, use ALTER TABLE NO FORCE ROW LEVEL SECURITY.
+
 Утилиты pg_dump и pg_dumpall автоматически используют этот параметр, так что дополнительные действия предпринимать не нужно:
 
 admin$ pg_dump -d db1 > /dev/null
+
 pg_dump: error: query failed: ERROR:  query would be affected by row-level security policy for table "t"
 HINT:  To disable the policy for the table's owner, use ALTER TABLE NO FORCE ROW LEVEL SECURITY.
 pg_dump: error: query was: COPY public.t (id, s) TO stdout;
+
 Чтобы обойти политики защиты строк и выгрузить все данные, пользователь должен иметь атрибут роли BYPASSRLS:
 
-α=> \c - postgres
-You are now connected to database "db1" as user "postgres".
-α=> ALTER USER admin BYPASSRLS;
-ALTER ROLE
+::
+
+	A@postgres=#  \c - postgres
+	You are now connected to database "db1" as user "postgres".
+
+::
+
+	ALTER USER admin BYPASSRLS;
+	ALTER ROLE
+
 Теперь запросы от роли admin будут игнорировать политики защиты строк:
 
-admin$ pg_dump -d db1 -t t --data-only
---
--- PostgreSQL database dump
---
+::
 
--- Dumped from database version 13.7 (Ubuntu 13.7-1.pgdg22.04+1)
--- Dumped by pg_dump version 13.7 (Ubuntu 13.7-1.pgdg22.04+1)
+	admin$ pg_dump -d db1 -t t --data-only
+	
+	--
+	-- PostgreSQL database dump
+	--
 
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
+	-- Dumped from database version 13.7 (Ubuntu 13.7-1.pgdg22.04+1)
+	-- Dumped by pg_dump version 13.7 (Ubuntu 13.7-1.pgdg22.04+1)
 
---
--- Data for Name: t; Type: TABLE DATA; Schema: public; Owner: admin
---
+	SET statement_timeout = 0;
+	SET lock_timeout = 0;
+	SET idle_in_transaction_session_timeout = 0;
+	SET client_encoding = 'UTF8';
+	SET standard_conforming_strings = on;
+	SELECT pg_catalog.set_config('search_path', '', false);
+	SET check_function_bodies = false;
+	SET xmloption = content;
+	SET client_min_messages = warning;
+	SET row_security = off;
 
-COPY public.t (id, s) FROM stdin;
-1	Привет, мир!
-2	
-3	\N
-\.
+	--
+	-- Data for Name: t; Type: TABLE DATA; Schema: public; Owner: admin
+	--
 
-
---
--- Name: t_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
---
-
-SELECT pg_catalog.setval('public.t_id_seq', 3, true);
+	COPY public.t (id, s) FROM stdin;
+	1	Привет, мир!
+	2	
+	3	\N
+	\.
 
 
---
--- PostgreSQL database dump complete
---
+	--
+	-- Name: t_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+	--
+
+	SELECT pg_catalog.setval('public.t_id_seq', 3, true);
+
+
+	--
+	-- PostgreSQL database dump complete
+	--
+
+Практика
+********
+
+1. На первом сервере создайте несколько баз данных.В них создайте различные объекты (например, таблицы, представления, индексы).
+
+2. Сделайте копию только глобальных объектов кластерас помощью утилиты pg_dumpall.
+
+3. Сделайте копии каждой базы данных кластера с помощью утилиты pg_dump в параллельном режиме.
+
+4. Полностью восстановите кластер на другом сервере, используя созданные резервные копии.
+
+5. Попробуйте подобрать такие данные и параметры команды COPY, чтобы созданную копию таблицы невозможно было загрузить
