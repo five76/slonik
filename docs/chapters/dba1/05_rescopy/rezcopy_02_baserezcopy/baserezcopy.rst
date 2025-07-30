@@ -58,6 +58,7 @@ https://postgrespro.ru/docs/postgresql/13/backup-file
 	admin$ psql -U postgres 
 
 ::
+	
 	postgres=# CREATE DATABASE backup_base;
 
 
@@ -97,7 +98,7 @@ https://postgrespro.ru/docs/postgresql/13/backup-file
 
 Сам резервный сервер уже предварительно собран и установлен.
 
-Beta восстанавливает согласованность и запускается:
+Сервер **B** восстанавливает согласованность и запускается:
 
 ::
 
