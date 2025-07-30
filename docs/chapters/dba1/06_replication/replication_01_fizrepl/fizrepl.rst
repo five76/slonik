@@ -180,6 +180,7 @@ max_wal_senders;
 # It will be overwritten by the ALTER SYSTEM command.
 primary_conninfo = 'user=student passfile=''/home/student/.pgpass'' channel_binding=prefer host=''/var/run/postgresql'' port=5432 sslmode=prefer sslcompression=0 sslsni=1 ssl_min_protocol_version=TLSv1.2 gssencmode=prefer krbsrvname=postgres target_session_attrs=any'
 primary_slot_name = 'replica'
+
 По умолчанию реплика будет «горячей», то есть сможет выполнять запросы во время восстановления. Если такая возможность не нужна, реплику можно сделать «теплой» (hot_standby = off).
 
 Утилита также создала сигнальный файл **standby.signal**, наличие которого указывает серверу войти в режим постоянного восстановления.

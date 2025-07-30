@@ -485,9 +485,16 @@ https://postgrespro.ru/docs/postgresql/13/app-pgrestore
 Серьезное ограничение обычного формата (plain) состоит в том, что выбирать объекты нужно в момент выгрузки. 
 Формат custom позволяет сначала сделать полную копию, а выбирать объекты уже при загрузке.
 
+Создать роль admin с правами суперпользователя в обоих кластерах.
+
 ::
 
-	admin$ sudo -u postgres pg_dump --format=custom -d db1 -f /home/admin/db1.custom
+	CREATE ROLE admin SUPERUSER
+	ALTER ROLE admin LOGIN PASSWORD 'P@ssw0rd'
+
+::
+
+	admin$ pg_dump --format=custom -d db1 -f /home/admin/db1.custom
 	
 Для восстановления объектов из такой копии предназначена утилита pg_restore. Повторим восстановление таблицы t:
 
@@ -515,7 +522,7 @@ https://postgrespro.ru/docs/postgresql/13/app-pgrestore
 
 ::
 
-	B@db2=#SELECT * FROM t;
+	| B@db2=#SELECT * FROM t;
 
 .. figure:: img/logrez_11.png
        :scale: 100 %
@@ -524,7 +531,9 @@ https://postgrespro.ru/docs/postgresql/13/app-pgrestore
 
 Еще один пример: восстановим целиком исходную базу данных db1 на другом сервере.
 
-admin$ pg_restore --create -p 5433 -d postgres /home/admin/db1.custom
+::
+
+	admin$ pg_restore -p 5433 --create -d postgres /home/admin/db1.custom
 
 Здесь указана БД *postgres*, но при восставновлении из копии утилита сама создаст нужную БД и тут же 
 переключится в нее.
@@ -543,13 +552,13 @@ admin$ pg_restore --create -p 5433 -d postgres /home/admin/db1.custom
 	   
 ::
 
-	B@postgres=\c db1
+	| B@postgres=\c db1
 
 	You are now connected to database "db1" as user "admin".
 
 ::
 
-	B@db1=#SELECT * FROM t;
+	| B@db1=#SELECT * FROM t;
 
 	 id |      s       
 	----+--------------
