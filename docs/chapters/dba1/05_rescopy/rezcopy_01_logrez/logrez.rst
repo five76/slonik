@@ -673,7 +673,9 @@ https://postgrespro.ru/docs/postgresql/13/functions-admin.html#FUNCTIONS-SNAPSHO
 
 В команду восстановления добавляем ключ --clean, который генерирует команду удаления существующей БД:
 
-admin$ pg_restore --clean --create --jobs=2 -p 5433 -d postgres /home/admin/db1.directory
+::
+
+	admin$ pg_restore --clean --create --jobs=2 -p 5433 -d postgres /home/admin/db1.directory
 
 Нужно заново создать базу данных, восстанавливаться мы в два потока, восстанавливаться на B. Здесь указывается подключение к базе данных postgres. 
 Нужно подключиться к любой базе данных, а поскольку есть здесь опция **create**, то будет сгенерирована команда **create database db1**, 
