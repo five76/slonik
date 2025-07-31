@@ -392,10 +392,11 @@ admin$ ls -l /home/admin/backup/pg_wal/
 
 ::
 
-	admin$ sudo pg_ctl /var/lib/pgsql/data1/ status
+	admin$ sudo -u posgtres pg_ctl -D /var/lib/pgsql/data1/ status
 	pg_ctl: no server running
 
 ::
+	
 	admin$ sudo rm -rf /var/lib/pgsql/data1/*
 
 ::
