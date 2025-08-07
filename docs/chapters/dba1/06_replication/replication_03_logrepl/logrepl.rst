@@ -142,6 +142,7 @@ https://postgrespro.ru/docs/postgresql/13/logical-replication-architecture
 Для начала создадим базу данных.
 
 ::
+
 	A@postgres=#CREATE DATABASE replica_logical;
 	CREATE DATABASE
 
