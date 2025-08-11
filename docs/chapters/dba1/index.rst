@@ -11,3 +11,4 @@ slonik_01
    04_access/index
    05_rescopy/index
    06_replication/index
+   07_monitoring/index
