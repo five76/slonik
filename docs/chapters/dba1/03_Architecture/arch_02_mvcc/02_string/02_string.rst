@@ -455,10 +455,10 @@ z/Architecture использует обратный порядок (big-endian)
 
 	SELECT * FROM t_v;
 
- ctid  | state  | xmin | xmax | xmin_c | xmin_a | xmax_c | xmax_a 
--------+--------+------+------+--------+--------+--------+--------
- (0,1) | normal |  749 |  750 | t      |        |        | 
-(1 row)
+	 ctid  | state  | xmin | xmax | xmin_c | xmin_a | xmax_c | xmax_a 
+	-------+--------+------+------+--------+--------+--------+--------
+	 (0,1) | normal |  749 |  750 | t      |        |        | 
+	(1 row)
 
 ::
 
@@ -703,6 +703,7 @@ z/Architecture использует обратный порядок (big-endian)
 	ROLLBACK TO sp;
 
 ::
+	
 	SELECT pg_xact_status('753') xid, pg_xact_status('754') subxid;
 
 .. figure:: img/02_string_page_25.png
@@ -761,9 +762,7 @@ z/Architecture использует обратный порядок (big-endian)
 А в CLOG основная транзакция и все вложенные, которые еще не завершены, получают статус committed:
 
 ::
-	SELECT pg_xact_status('1057') xid,
-    pg_xact_status('1058') subxid1,
-    pg_xact_status('1059') subxid2;
+	SELECT pg_xact_status('1057') xid, pg_xact_status('1058') subxid1, pg_xact_status('1059') subxid2;
 	
 	
 .. figure:: img/02_string_page_30.png
