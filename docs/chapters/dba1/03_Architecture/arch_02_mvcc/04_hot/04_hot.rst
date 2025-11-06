@@ -326,61 +326,75 @@ Cтолбец t_ctid содержит ссылку. Первая версия с
 На версию строки, размещенную на другой странице, придется сделать отдельную ссылку из индекса.
 
 https://habr.com/ru/companies/postgrespro/articles/449704/
+::
 
-|  => BEGIN ISOLATION LEVEL REPEATABLE READ;
-|  => SELECT count(*) FROM hot;
-|   count 
-|  -------
-|       1
-|  (1 row)
+	|  => BEGIN ISOLATION LEVEL REPEATABLE READ;
+	|  => SELECT count(*) FROM hot;
+	
+	|   count 
+	|  -------
+	|       1
+	|  (1 row)
 
 Снимок не даст очистить версии строк на странице. Теперь выполняем обновление в первом сеансе:
 
-=> UPDATE hot SET s = 'I';
-=> UPDATE hot SET s = 'J';
-=> UPDATE hot SET s = 'K';
-=> SELECT * FROM heap_page('hot',0);
- ctid  |     state     |   xmin   |   xmax   | hhu | hot | t_ctid 
--------+---------------+----------+----------+-----+-----+--------
- (0,1) | redirect to 2 |          |          |     |     | 
- (0,2) | normal        | 3993 (c) | 3994 (c) | t   | t   | (0,3)
- (0,3) | normal        | 3994 (c) | 3995 (c) | t   | t   | (0,4)
- (0,4) | normal        | 3995 (c) | 3996     | t   | t   | (0,5)
- (0,5) | normal        | 3996     | 0 (a)    |     | t   | (0,5)
-(5 rows)
+::
+
+	=> UPDATE hot SET s = 'I';	
+	=> UPDATE hot SET s = 'J';
+	=> UPDATE hot SET s = 'K';
+	=> SELECT * FROM heap_page('hot',0);
+ 
+	ctid  |     state     |   xmin   |   xmax   | hhu | hot | t_ctid 
+	-------+---------------+----------+----------+-----+-----+--------
+	 (0,1) | redirect to 2 |          |          |     |     | 
+	 (0,2) | normal        | 3993 (c) | 3994 (c) | t   | t   | (0,3)
+	 (0,3) | normal        | 3994 (c) | 3995 (c) | t   | t   | (0,4)
+	 (0,4) | normal        | 3995 (c) | 3996     | t   | t   | (0,5)
+	 (0,5) | normal        | 3996     | 0 (a)    |     | t   | (0,5)
+	(5 rows)
 
 При следующем обновлении места на странице уже не хватит, но внутристраничная очистка не сможет ничего освободить:
 
-=> UPDATE hot SET s = 'L';
+::
 
-|  => COMMIT; -- снимок больше не нужен
+	=> UPDATE hot SET s = 'L';
 
-=> SELECT * FROM heap_page('hot',0);
- ctid  |     state     |   xmin   |   xmax   | hhu | hot | t_ctid 
--------+---------------+----------+----------+-----+-----+--------
- (0,1) | redirect to 2 |          |          |     |     | 
- (0,2) | normal        | 3993 (c) | 3994 (c) | t   | t   | (0,3)
- (0,3) | normal        | 3994 (c) | 3995 (c) | t   | t   | (0,4)
- (0,4) | normal        | 3995 (c) | 3996 (c) | t   | t   | (0,5)
- (0,5) | normal        | 3996 (c) | 3997     |     | t   | (1,1)
-(5 rows)
+	|  => COMMIT; -- снимок больше не нужен
+
+	=> SELECT * FROM heap_page('hot',0);
+	 
+	ctid  |     state     |   xmin   |   xmax   | hhu | hot | t_ctid 
+	-------+---------------+----------+----------+-----+-----+--------
+	 (0,1) | redirect to 2 |          |          |     |     | 
+	 (0,2) | normal        | 3993 (c) | 3994 (c) | t   | t   | (0,3)
+	 (0,3) | normal        | 3994 (c) | 3995 (c) | t   | t   | (0,4)
+	 (0,4) | normal        | 3995 (c) | 3996 (c) | t   | t   | (0,5)
+	 (0,5) | normal        | 3996 (c) | 3997     |     | t   | (1,1)
+	(5 rows)
 
 В версии (0,5) видим ссылку на (1,1), ведущую на страницу 1.
 
-=> SELECT * FROM heap_page('hot',1);
- ctid  | state  | xmin | xmax  | hhu | hot | t_ctid 
--------+--------+------+-------+-----+-----+--------
- (1,1) | normal | 3997 | 0 (a) |     |     | (1,1)
-(1 row)
+::
+
+	=> SELECT * FROM heap_page('hot',1);
+ 
+	ctid  | state  | xmin | xmax  | hhu | hot | t_ctid 
+	-------+--------+------+-------+-----+-----+--------
+	 (1,1) | normal | 3997 | 0 (a) |     |     | (1,1)
+	(1 row)
 
 Теперь в индексе — две строки, каждая из которых указывает на начало своей HOT-цепочки:
 
-=> SELECT * FROM index_page('hot_id',1);
- itemoffset | ctid  
-------------+-------
-          1 | (1,1)
-          2 | (0,1)
-(2 rows)
+::
+
+	=> SELECT * FROM index_page('hot_id',1);
+ 
+	itemoffset | ctid  
+	------------+-------
+	          1 | (1,1)
+	          2 | (0,1)
+	(2 rows)
 
 
 Внутристраничная очистка при обычных обновлениях
