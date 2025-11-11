@@ -332,10 +332,10 @@ https://www.postgresql.org/docs/16/runtime-config-autovacuum.html
 	SELECT * FROM generate_series(0,1) g(blkno), pg_visibility_map('t',g.blkno) ORDER BY g.blkno;
 	
 	
- blkno | all_visible | all_frozen 
--------+-------------+------------
-     0 | t           | f
-     1 | t           | f
+	 blkno | all_visible | all_frozen 
+	-------+-------------+------------
+	     0 | t           | f
+	     1 | t           | f
 
 
 Каков возраст транзакции, создавшей строки?
@@ -345,13 +345,13 @@ https://www.postgresql.org/docs/16/runtime-config-autovacuum.html
 	SELECT * FROM t_v;
 
 
-ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax 
--------+--------+------+----------+--------+--------+------
- (0,1) | normal |  748 |        1 | t      |        |    0
- (0,2) | normal |  748 |        1 | t      |        |    0
- (1,1) | normal |  748 |        1 | t      |        |    0
- (1,2) | normal |  748 |        1 | t      |        |    0
-(4 rows)
+	ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax 
+	-------+--------+------+----------+--------+--------+------
+	 (0,1) | normal |  748 |        1 | t      |        |    0
+	 (0,2) | normal |  748 |        1 | t      |        |    0
+	 (1,1) | normal |  748 |        1 | t      |        |    0
+	 (1,2) | normal |  748 |        1 | t      |        |    0
+	(4 rows)
 
 Возраст равен 1; версии строк с такой транзакцией еще не будут заморожены.
 
@@ -365,14 +365,14 @@ ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax
 
 	SELECT * FROM t_v;
 	
- ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax 
--------+--------+------+----------+--------+--------+------
- (0,1) | normal |  748 |        2 | t      |        |  749
- (0,2) | normal |  748 |        2 | t      |        |    0
- (0,3) | normal |  749 |        1 |        |        |    0
- (1,1) | normal |  748 |        2 | t      |        |    0
- (1,2) | normal |  748 |        2 | t      |        |    0
-(5 rows)
+	 ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax 
+	-------+--------+------+----------+--------+--------+------
+	 (0,1) | normal |  748 |        2 | t      |        |  749
+	 (0,2) | normal |  748 |        2 | t      |        |    0
+	 (0,3) | normal |  749 |        1 |        |        |    0
+	 (1,1) | normal |  748 |        2 | t      |        |    0
+	 (1,2) | normal |  748 |        2 | t      |        |    0
+	(5 rows)
 
 Сейчас нулевая страница уже будет обработана заморозкой:
 
@@ -384,11 +384,11 @@ ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax
 
 	SELECT * FROM generate_series(0,1) g(blkno), pg_visibility_map('t',g.blkno) ORDER BY g.blkno;
 	
- blkno | all_visible | all_frozen 
--------+-------------+------------
-     0 | f           | f
-     1 | t           | f
-(2 rows)
+	 blkno | all_visible | all_frozen 
+	-------+-------------+------------
+	     0 | f           | f
+	     1 | t           | f
+	(2 rows)
 
 Выполняем очистку.
 
@@ -403,14 +403,14 @@ ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax
 
 	SELECT * FROM t_v;
 	
- ctid  |     state     | xmin | xmin_age | xmin_c | xmin_a | xmax 
--------+---------------+------+----------+--------+--------+------
- (0,1) | redirect to 3 |      |          |        |        |     
- (0,2) | normal        |  748 |        2 | t      | t      |    0
- (0,3) | normal        |  749 |        1 | t      | t      |    0
- (1,1) | normal        |  748 |        2 | t      |        |    0
- (1,2) | normal        |  748 |        2 | t      |        |    0
-(5 rows)
+	 ctid  |     state     | xmin | xmin_age | xmin_c | xmin_a | xmax 
+	-------+---------------+------+----------+--------+--------+------
+	 (0,1) | redirect to 3 |      |          |        |        |     
+	 (0,2) | normal        |  748 |        2 | t      | t      |    0
+	 (0,3) | normal        |  749 |        1 | t      | t      |    0
+	 (1,1) | normal        |  748 |        2 | t      |        |    0
+	 (1,2) | normal        |  748 |        2 | t      |        |    0
+	(5 rows)
 
 Теперь обе страницы отмечены в карте видимости (все версии строк на них актуальны). 
 Очистка теперь не будет обрабатывать ни одну из этих страниц, и незамороженные версии строк на первой странице так и останутся незамороженными.
@@ -419,11 +419,11 @@ ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax
 	SELECT * FROM generate_series(0,1) g(blkno), pg_visibility_map('t',g.blkno) ORDER BY g.blkno;
 	
 	
- blkno | all_visible | all_frozen 
--------+-------------+------------
-     0 | t           | t
-     1 | t           | f
-(2 rows)
+	 blkno | all_visible | all_frozen 
+	-------+-------------+------------
+	     0 | t           | t
+	     1 | t           | f
+	(2 rows)
 
 Именно для такого случая и требуется параметр vacuum_freeze_table_age, определяющий, в какой момент нужно просмотреть страницы, отмеченные в карте видимости, если они не отмечены в карте заморозки.
 
@@ -433,29 +433,29 @@ ctid  | state  | xmin | xmin_age | xmin_c | xmin_a | xmax
 
 	SELECT relfrozenxid, age(relfrozenxid) FROM pg_class WHERE relname = 't';
 	
- relfrozenxid | age 
---------------+-----
-          748 |   2
-(1 row)
+	 relfrozenxid | age 
+	--------------+-----
+	          748 |   2
+	(1 row)
 
 Сымитируем выполнение еще одной транзакции, чтобы возраст relfrozenxid таблицы достиг значения параметра vacuum_freeze_table_age.
 ::
 	
 	SELECT pg_current_xact_id();
  
- pg_current_xact_id 
---------------------
-                750
-(1 row)
+	 pg_current_xact_id 
+	--------------------
+	                750
+	(1 row)
 
 ::
 
 	SELECT relfrozenxid, age(relfrozenxid) FROM pg_class WHERE relname = 't';
 
 
-relfrozenxid | age 
---------------+-----
-          748 |   3
+	relfrozenxid | age 
+	--------------+-----
+	          748 |   3
 
 ::
 
@@ -470,22 +470,25 @@ relfrozenxid | age
 	SELECT relfrozenxid, age(relfrozenxid) FROM pg_class WHERE relname = 't';
 
 
-relfrozenxid | age 
---------------+-----
-          751 |   0
-(1 row)
+	relfrozenxid | age 
+	--------------+-----
+	          751 |   0
+	(1 row)
 
 Вот что получилось в страницах:
 
-=> SELECT * FROM t_v;
- ctid  |     state     | xmin | xmin_age | xmin_c | xmin_a | xmax 
--------+---------------+------+----------+--------+--------+------
- (0,1) | redirect to 3 |      |          |        |        |     
- (0,2) | normal        |  748 |        3 | t      | t      |    0
- (0,3) | normal        |  749 |        2 | t      | t      |    0
- (1,1) | normal        |  748 |        3 | t      | t      |    0
- (1,2) | normal        |  748 |        3 | t      | t      |    0
-(5 rows)
+::
+
+	SELECT * FROM t_v;
+ 
+	 ctid  |     state     | xmin | xmin_age | xmin_c | xmin_a | xmax 
+	-------+---------------+------+----------+--------+--------+------
+	 (0,1) | redirect to 3 |      |          |        |        |     
+	 (0,2) | normal        |  748 |        3 | t      | t      |    0
+	 (0,3) | normal        |  749 |        2 | t      | t      |    0
+	 (1,1) | normal        |  748 |        3 | t      | t      |    0
+	 (1,2) | normal        |  748 |        3 | t      | t      |    0
+	(5 rows)
 
 Обе страницы теперь отмечены в карте заморозки.
 
@@ -494,12 +497,12 @@ relfrozenxid | age
 	SELECT * FROM generate_series(0,1) g(blkno), pg_visibility_map('t',g.blkno)
 
 
-ORDER BY g.blkno;
- blkno | all_visible | all_frozen 
--------+-------------+------------
-     0 | t           | t
-     1 | t           | t
-(2 rows)
+	ORDER BY g.blkno;
+	 blkno | all_visible | all_frozen 
+	-------+-------------+------------
+	     0 | t           | t
+	     1 | t           | t
+	(2 rows)
 
 Номер последней замороженной транзакции есть и на уровне всей БД:
 
@@ -507,14 +510,14 @@ ORDER BY g.blkno;
 
 	SELECT datname, datfrozenxid, age(datfrozenxid) FROM pg_database;
 	
-   datname   | datfrozenxid | age 
--------------+--------------+-----
- postgres    |          722 |  29
- student     |          722 |  29
- template1   |          722 |  29
- template0   |          722 |  29
- mvcc_freeze |          722 |  29
-(5 rows)
+	   datname   | datfrozenxid | age 
+	-------------+--------------+-----
+	 postgres    |          722 |  29
+	 student     |          722 |  29
+	 template1   |          722 |  29
+	 template0   |          722 |  29
+	 mvcc_freeze |          722 |  29
+	(5 rows)
 
 Он устанавливается в минимальное значение из relfrozenxid всех таблиц этой БД. 
 Если возраст datfrozenxid превысит значение параметра autovacuum_freeze_max_age, автоочистка будет запущена принудительно.
