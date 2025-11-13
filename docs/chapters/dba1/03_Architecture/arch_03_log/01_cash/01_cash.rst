@@ -540,6 +540,7 @@ PostgreSQL работает с диском через операционную 
 (кеширование на уровне ОС в нем не учитывается).
 
 ::
+
 	SELECT context, reads, hits, reuses FROM pg_stat_io
 	WHERE backend_type = 'client backend' AND
 		  object = 'relation' AND
