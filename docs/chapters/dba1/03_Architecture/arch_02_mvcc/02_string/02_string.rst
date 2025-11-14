@@ -805,6 +805,9 @@ z/Architecture использует обратный порядок (big-endian)
 
 https://habr.com/ru/articles/890718/
 
+Хранение данных в Postgresql
+
+https://habr.com/ru/articles/841674/
 
 Самостоятельно
 **************
