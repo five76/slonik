@@ -279,19 +279,22 @@ https://github.com/postgrespro/pg_wait_sampling
 
 Подготовить базу для получения нагрузки с помощью pgbench и наблюдать, как изменится картина.
 
-student$ pgbench -i locks_memory
-dropping old tables...
-NOTICE:  table "pgbench_accounts" does not exist, skipping
-NOTICE:  table "pgbench_branches" does not exist, skipping
-NOTICE:  table "pgbench_history" does not exist, skipping
-NOTICE:  table "pgbench_tellers" does not exist, skipping
-creating tables...
-generating data (client-side)...
-100000 of 100000 tuples (100%) done (elapsed 0.32 s, remaining 0.00 s)
-vacuuming...
-creating primary keys...
-done in 0.73 s (drop tables 0.00 s, create tables 0.04 s, client-side generate 0.38 s, 
-vacuum 0.15 s, primary keys 0.15 s).
+::
+
+	student$ pgbench -i locks_memory
+
+	dropping old tables...
+	NOTICE:  table "pgbench_accounts" does not exist, skipping
+	NOTICE:  table "pgbench_branches" does not exist, skipping
+	NOTICE:  table "pgbench_history" does not exist, skipping
+	NOTICE:  table "pgbench_tellers" does not exist, skipping
+	creating tables...
+	generating data (client-side)...
+	100000 of 100000 tuples (100%) done (elapsed 0.32 s, remaining 0.00 s)
+	vacuuming...
+	creating primary keys...
+	done in 0.73 s (drop tables 0.00 s, create tables 0.04 s, client-side generate 0.38 s, 
+	vacuum 0.15 s, primary keys 0.15 s).
 
 Сбросить собранный профиль в ноль и запустить тест на 30 секунд в отдельном процессе. Одновременно смотреть, как изменяется профиль.
 
@@ -305,10 +308,7 @@ vacuum 0.15 s, primary keys 0.15 s).
 	(1 row)
 
 ::
-
 	admin$pgbench -T 30 locks_memory
-
-
 
 ::
 
@@ -358,20 +358,22 @@ vacuum 0.15 s, primary keys 0.15 s).
 Ожидания процесса pgbench будут получаться разными в зависимости от конкретной системы. 
 C большой вероятностью будет представлено ожидание записи и синхронизации журнала (IO/WALSync, IO/WALWrite).
 
-pgbench (16.3 (Ubuntu 16.3-1.pgdg22.04+1))
-starting vacuum...end.
-transaction type: <builtin: TPC-B (sort of)>
-scaling factor: 1
-query mode: simple
-number of clients: 1
-number of threads: 1
-maximum number of tries: 1
-duration: 30 s
-number of transactions actually processed: 4163
-number of failed transactions: 0 (0.000%)
-latency average = 7.206 ms
-initial connection time = 2.669 ms
-tps = 138.766218 (without initial connection time)
+::
+
+	pgbench (16.3 (Ubuntu 16.3-1.pgdg22.04+1))
+	starting vacuum...end.
+	transaction type: <builtin: TPC-B (sort of)>
+	scaling factor: 1
+	query mode: simple
+	number of clients: 1
+	number of threads: 1
+	maximum number of tries: 1
+	duration: 30 s
+	number of transactions actually processed: 4163
+	number of failed transactions: 0 (0.000%)
+	latency average = 7.206 ms
+	initial connection time = 2.669 ms
+	tps = 138.766218 (without initial connection time)
 
 Легкие блокировки
 ^^^^^^^^^^^^^^^^^
@@ -404,9 +406,11 @@ tps = 138.766218 (without initial connection time)
 	(1 row)
 
 ::
+
 	admin$ pgbench -T 30 locks_memory
 
 ::
+
 	SELECT p.pid, a.backend_type, a.application_name AS app, p.event_type, p.event, p.count
 	FROM pg_wait_sampling_profile p
 	  LEFT JOIN pg_stat_activity a ON p.pid = a.pid
@@ -449,17 +453,20 @@ tps = 138.766218 (without initial connection time)
 
 Теперь основное ожидание процесса pgbench связано с вводом-выводом, точнее с записью журнала, которая выполняется в синхронном режиме при каждой фиксации. Поскольку (вспомним слайд презентации) запись журнала на диск защищена легкой блокировкой WALWriteLock, она также присутствует в профиле.
 
-pgbench (16.3 (Ubuntu 16.3-1.pgdg22.04+1))
-starting vacuum...end.
-transaction type: <builtin: TPC-B (sort of)>
-scaling factor: 1
-query mode: simple
-number of clients: 1
-number of threads: 1
-maximum number of tries: 1
-duration: 30 s
-number of transactions actually processed: 63
-number of failed transactions: 0 (0.000%)
-latency average = 482.915 ms
-initial connection time = 81.537 ms
-tps = 2.070758 (without initial connection time)
+::
+
+	pgbench (16.3 (Ubuntu 16.3-1.pgdg22.04+1))
+	
+	starting vacuum...end.
+	transaction type: <builtin: TPC-B (sort of)>
+	scaling factor: 1
+	query mode: simple
+	number of clients: 1
+	number of threads: 1
+	maximum number of tries: 1
+	duration: 30 s
+	number of transactions actually processed: 63
+	number of failed transactions: 0 (0.000%)
+	latency average = 482.915 ms
+	initial connection time = 81.537 ms
+	tps = 2.070758 (without initial connection time)
