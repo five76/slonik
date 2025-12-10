@@ -1,8 +1,8 @@
-Разработка серверной части
-##########################
+slonik02
+########
 
 .. toctree::
    :maxdepth: 4
    :caption: Оглавление
 
-   10_class_op/index
+   dev2/index
