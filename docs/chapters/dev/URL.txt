@@ -1,0 +1,6 @@
+Кластер. Табличные пространства
+
+https://datafinder.ru/products/fizicheskaya-struktura-klastera-baz-dannyh-postgresql
+
+
+SELECT format('SELECT count(*) FROM film_actor WHERE film_id=%s;', film_id) FROM film;
