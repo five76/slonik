@@ -387,10 +387,10 @@ https://postgrespro.ru/docs/postgresql/16/routine-vacuuming - 25.1.3. Обнов
 	ANALYZE VERBOSE tt;
 	
 	
-INFO:  analyzing "public.tt"
-INFO:  "tt": scanned 4480 of 4480 pages, containing 1000000 live rows and 0 dead rows; 
-30000 rows in sample, 1000000 estimated total rows
-ANALYZE
+	INFO:  analyzing "public.tt"
+	INFO:  "tt": scanned 4480 of 4480 pages, containing 1000000 live rows and 0 dead rows; 
+	30000 rows in sample, 1000000 estimated total rows
+	ANALYZE
 
 Статистика сохраняется в системном каталоге. После этого планировщик знает, что во всех строках находится одно и то же значение, 
 и перестает использовать индекс:
@@ -561,6 +561,7 @@ ANALYZE
        :scale: 100 %
        :align: center
        :alt: asda	
+	   
 9. ПРоверить плотность кортежей и индексов:
 
 ::
@@ -896,10 +897,10 @@ https://postgrespro.ru/docs/postgresql/16/sql-createtable
 	SELECT * FROM analyze_v;
 	
 	
- relname | mod_tup | max_mod_tup | need_analyze |       last_autoanalyze        
----------+---------+-------------+--------------+-------------------------------
- tvac    |       0 |          20 | f            | 2025-04-09 21:20:47.173247+03
-(1 row)
+	 relname | mod_tup | max_mod_tup | need_analyze |       last_autoanalyze        
+	---------+---------+-------------+--------------+-------------------------------
+	 tvac    |       0 |          20 | f            | 2025-04-09 21:20:47.173247+03
+	(1 row)
 
 .. figure:: img/vac_17.png
        :scale: 100 %
