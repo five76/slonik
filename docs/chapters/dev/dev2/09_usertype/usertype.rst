@@ -4,7 +4,7 @@
 Фоновые процессы
 ****************
 
-.. 	figure:: img/08_01.png
+.. 	figure:: img/09_01.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -23,7 +23,7 @@ https://postgrespro.ru/docs/postgresql/16/datatype
 ************** 
 	   
 
-.. 	figure:: img/08_02.png
+.. 	figure:: img/09_02.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -44,7 +44,7 @@ https://postgrespro.ru/docs/postgresql/16/functions-comparisons#COMPOSITE-TYPE-C
 Типы перечислений
 *****************
 
-.. 	figure:: img/08_03.png
+.. 	figure:: img/09_03.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -238,7 +238,7 @@ https://postgrespro.ru/docs/postgresql/16/functions-enum
 Диапазонные типы
 *****************
 
-.. 	figure:: img/08_04.png
+.. 	figure:: img/09_04.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -262,7 +262,7 @@ https://postgrespro.ru/docs/postgresql/16/functions-range
 Мультидиапазоны
 ===============
 
-.. 	figure:: img/08_05.png
+.. 	figure:: img/09_05.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -408,7 +408,7 @@ https://postgrespro.ru/docs/postgresql/16/functions-range
 Интервалы дат и времени
 ************************
 
-.. 	figure:: img/08_06.png
+.. 	figure:: img/09_06.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -471,7 +471,7 @@ https://postgrespro.ru/docs/postgresql/16/datatype-datetimehttps://postgrespro.r
 Домены
 ******
 
-.. 	figure:: img/08_07.png
+.. 	figure:: img/09_07.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -588,7 +588,7 @@ https://postgrespro.ru/docs/postgresql/16/domainshttps://postgrespro.ru/docs/pos
 Базовые типы
 ************
 
-.. 	figure:: img/08_08.png
+.. 	figure:: img/09_08.png
        :scale: 100 %
        :align: center
        :alt: asda
@@ -605,7 +605,7 @@ https://postgrespro.ru/docs/postgresql/16/sql-createtype
 Действия над типами
 ===================
 
-.. 	figure:: img/08_09.png
+.. 	figure:: img/09_09.png
        :scale: 100 %
        :align: center
        :alt: asda
