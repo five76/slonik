@@ -53,6 +53,7 @@
 
 Для создания табличного пространства используется команда **CREATE TABLESPACE**, например::
 
+
 ::
 
 	CREATE TABLESPACE fastspace LOCATION '/ssd1/postgresql/data';
@@ -257,7 +258,7 @@
 
 ::
 
-	SET temp_tablespaces = 'ts';
+	SET temp_tablespaces = 'my_ts';
 
 
 ::
