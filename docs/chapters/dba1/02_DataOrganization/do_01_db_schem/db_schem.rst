@@ -1069,7 +1069,7 @@ OID могут быть полезны в случае:
    
 ::
 
-	SELECT a.attname, a.atttypids
+	SELECT a.attname, a.atttypid
 	FROM pg_attribute a
 	WHERE a.attrelid = 'actor'::regclass
 	AND a.attnum > 0;
