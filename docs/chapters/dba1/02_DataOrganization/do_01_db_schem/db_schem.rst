@@ -744,13 +744,13 @@ PostgreSQL поддерживает локальные и глобальные �
    
 ::
 
-	SELECT * FROM database \gx;
+	SELECT * FROM pg_database \gx
 
 Большинство столбцов начинается с *dat*
 
 ::
 
-	SELECT * FROM attribute \gx;	
+	SELECT * FROM pg_attribute \gx
 
 Большинство столбцов начинается с *att*
 
