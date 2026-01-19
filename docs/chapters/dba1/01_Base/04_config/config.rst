@@ -62,7 +62,7 @@ https://postgrespro.ru/docs/postgresql/16/runtime-config
 
 ::
 
-	pg_ctl -D /var/lib/pgsql/data reload
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data reload
 	
 или в терминале psql
 
@@ -72,7 +72,7 @@ https://postgrespro.ru/docs/postgresql/16/runtime-config
 
 ::
 
-	pg_ctl -D /var/lib/pgsql/data restart
+	sudo -u postgres pg_ctl -D /var/lib/pgsql/data restart
 
 **pg_read_file()** — системная функция в PostgreSQL, которая возвращает содержимое текстового файла с локальной файловой системы.  
 
