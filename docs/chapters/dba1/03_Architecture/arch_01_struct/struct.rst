@@ -209,7 +209,7 @@ psql работает в режиме автофиксации, то есть л
 
 ::
 
-	\set AOUTOCOMMIT off
+	\set AUTOCOMMIT off
 	INSERT INTO pr_lang VALUES (3,'C++');
 	
 	|SELECT * FROM pr_lang;
