@@ -645,7 +645,7 @@ PostgreSQL позволяет подключаться сразу несколь
 
 ::
 
-	cat /var/lib/pgsql/data/postmaster.pid
+	sudo cat /var/lib/pgsql/data/postmaster.pid
 
 .. figure:: img/05_proc_03.png
        :scale: 100 %
