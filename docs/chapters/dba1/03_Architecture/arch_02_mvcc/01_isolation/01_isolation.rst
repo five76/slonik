@@ -354,6 +354,7 @@ Ivan - 2 счета на общую суму 1000 ₽:
 
 ::
 
+	| BEGIN;
 	| SELECT * FROM accounts WHERE client = 'anna';
 
 .. figure:: img/01_isol_rc_03.png

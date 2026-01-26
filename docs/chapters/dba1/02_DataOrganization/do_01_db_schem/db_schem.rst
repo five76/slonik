@@ -176,7 +176,7 @@ https://postgrespro.ru/docs/postgresql/17/sql-alterdatabase
 
 ::
 
-	ALTER DATABASE my_db SET work_mem='16MB';
+	ALTER DATABASE appdb SET work_mem='16MB';
 
 Выйти из БД:
 
@@ -202,7 +202,7 @@ https://postgrespro.ru/docs/postgresql/17/sql-alterdatabase
 
 ::
 
-	ALTER DATABASE my_db CONNECTION LIMIT 10;
+	ALTER DATABASE appdb CONNECTION LIMIT 10;
 	
 ::
 
@@ -471,7 +471,7 @@ dn - describe namespace
 
 	SET search_path = public, app;
 
-Теперь таблица t будет найдена:
+Теперь таблица *pr_lang* будет найдена:
 
 ::
 
