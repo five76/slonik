@@ -326,8 +326,11 @@ Ivan - 2 счета на общую суму 1000 ₽:
 	
 	SELECT * FROM accounts WHERE client = 'anna';
 	
+Выполнить запрос во второй транзакции:
+
 ::
 
+	| BEGIN;
 	| SELECT * FROM accounts WHERE client = 'anna';
 	
 .. figure:: img/01_isol_rc_02.png
@@ -354,7 +357,6 @@ Ivan - 2 счета на общую суму 1000 ₽:
 
 ::
 
-	| BEGIN;
 	| SELECT * FROM accounts WHERE client = 'anna';
 
 .. figure:: img/01_isol_rc_03.png
