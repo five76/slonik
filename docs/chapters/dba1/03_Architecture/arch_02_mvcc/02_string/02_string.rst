@@ -735,7 +735,9 @@ z/Architecture использует обратный порядок (big-endian)
        :align: center
        :alt: asda
 	
+
 ::
+
 	SELECT pg_xact_status('1057') xid,
     pg_xact_status('1058') subxid1,
     pg_xact_status('1059') subxid2;
@@ -762,6 +764,7 @@ z/Architecture использует обратный порядок (big-endian)
 А в CLOG основная транзакция и все вложенные, которые еще не завершены, получают статус committed:
 
 ::
+
 	SELECT pg_xact_status('1057') xid, pg_xact_status('1058') subxid1, pg_xact_status('1059') subxid2;
 	
 	
