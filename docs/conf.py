@@ -19,7 +19,7 @@
 
 project = 'PostgreSQL'
 copyright = '2024-2025'
-author = 'fiv_e76'
+author = 'autor'
 
 
 # -- General configuration ---------------------------------------------------
